@@ -1,20 +1,20 @@
 ---
-title: Strategic Suspense Boundaries
+title: 戦略的なSuspenseバウンダリー
 impact: HIGH
 impactDescription: faster initial paint
 tags: async, suspense, streaming, layout-shift
 ---
 
-## Strategic Suspense Boundaries
+## 戦略的なSuspenseバウンダリー
 
-Instead of awaiting data in async components before returning JSX, use Suspense boundaries to show the wrapper UI faster while data loads.
+非同期コンポーネントでJSXを返す前にデータをawaitする代わりに、Suspenseバウンダリーを使用してデータのロード中もラッパーUIを素早く表示します。
 
-**Incorrect (wrapper blocked by data fetching):**
+**誤り（データ取得によりラッパー全体がブロックされる）：**
 
 ```tsx
 async function Page() {
   const data = await fetchData() // Blocks entire page
-  
+
   return (
     <div>
       <div>Sidebar</div>
@@ -28,9 +28,9 @@ async function Page() {
 }
 ```
 
-The entire layout waits for data even though only the middle section needs it.
+中央のセクションのみデータが必要なのに、レイアウト全体がデータを待ちます。
 
-**Correct (wrapper shows immediately, data streams in):**
+**正しい（ラッパーをすぐに表示し、データをストリーミングで受け取る）：**
 
 ```tsx
 function Page() {
@@ -54,15 +54,15 @@ async function DataDisplay() {
 }
 ```
 
-Sidebar, Header, and Footer render immediately. Only DataDisplay waits for data.
+Sidebar、Header、Footerはすぐにレンダリングされます。DataDisplayだけがデータを待ちます。
 
-**Alternative (share promise across components):**
+**代替案（コンポーネント間でPromiseを共有する）：**
 
 ```tsx
 function Page() {
   // Start fetch immediately, but don't await
   const dataPromise = fetchData()
-  
+
   return (
     <div>
       <div>Sidebar</div>
@@ -87,13 +87,13 @@ function DataSummary({ dataPromise }: { dataPromise: Promise<Data> }) {
 }
 ```
 
-Both components share the same promise, so only one fetch occurs. Layout renders immediately while both components wait together.
+両コンポーネントが同じPromiseを共有するため、フェッチは1回だけ行われます。レイアウトはすぐにレンダリングされ、両コンポーネントは一緒に待機します。
 
-**When NOT to use this pattern:**
+**このパターンを使うべきでない場合：**
 
-- Critical data needed for layout decisions (affects positioning)
-- SEO-critical content above the fold
-- Small, fast queries where suspense overhead isn't worth it
-- When you want to avoid layout shift (loading → content jump)
+- レイアウトの決定に必要なクリティカルデータ（配置に影響する場合）
+- フォールドより上のSEOクリティカルなコンテンツ
+- Suspenseのオーバーヘッドが見合わない小さくて高速なクエリ
+- レイアウトシフトを避けたい場合（ローディング → コンテンツのジャンプ）
 
-**Trade-off:** Faster initial paint vs potential layout shift. Choose based on your UX priorities.
+**トレードオフ：** 初期描画の速度 vs レイアウトシフトの可能性。UXの優先度に応じて選択してください。

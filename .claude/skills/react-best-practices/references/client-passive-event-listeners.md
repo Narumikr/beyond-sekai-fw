@@ -1,24 +1,24 @@
 ---
-title: Use Passive Event Listeners for Scrolling Performance
+title: スクロールパフォーマンスのためにパッシブイベントリスナーを使用する
 impact: MEDIUM
 impactDescription: eliminates scroll delay caused by event listeners
 tags: client, event-listeners, scrolling, performance, touch, wheel
 ---
 
-## Use Passive Event Listeners for Scrolling Performance
+## スクロールパフォーマンスのためにパッシブイベントリスナーを使用する
 
-Add `{ passive: true }` to touch and wheel event listeners to enable immediate scrolling. Browsers normally wait for listeners to finish to check if `preventDefault()` is called, causing scroll delay.
+タッチとホイールのイベントリスナーに`{ passive: true }`を追加して、即座のスクロールを有効にします。ブラウザは通常、`preventDefault()`が呼ばれるかどうか確認するためにリスナーの完了を待つため、スクロールの遅延が発生します。
 
-**Incorrect:**
+**誤り：**
 
 ```typescript
 useEffect(() => {
   const handleTouch = (e: TouchEvent) => console.log(e.touches[0].clientX)
   const handleWheel = (e: WheelEvent) => console.log(e.deltaY)
-  
+
   document.addEventListener('touchstart', handleTouch)
   document.addEventListener('wheel', handleWheel)
-  
+
   return () => {
     document.removeEventListener('touchstart', handleTouch)
     document.removeEventListener('wheel', handleWheel)
@@ -26,16 +26,16 @@ useEffect(() => {
 }, [])
 ```
 
-**Correct:**
+**正しい：**
 
 ```typescript
 useEffect(() => {
   const handleTouch = (e: TouchEvent) => console.log(e.touches[0].clientX)
   const handleWheel = (e: WheelEvent) => console.log(e.deltaY)
-  
+
   document.addEventListener('touchstart', handleTouch, { passive: true })
   document.addEventListener('wheel', handleWheel, { passive: true })
-  
+
   return () => {
     document.removeEventListener('touchstart', handleTouch)
     document.removeEventListener('wheel', handleWheel)
@@ -43,6 +43,6 @@ useEffect(() => {
 }, [])
 ```
 
-**Use passive when:** tracking/analytics, logging, any listener that doesn't call `preventDefault()`.
+**passiveを使用する場面：** トラッキング/アナリティクス、ログ、`preventDefault()`を呼ばないすべてのリスナー。
 
-**Don't use passive when:** implementing custom swipe gestures, custom zoom controls, or any listener that needs `preventDefault()`.
+**passiveを使用しない場面：** カスタムスワイプジェスチャーの実装、カスタムズームコントロール、`preventDefault()`が必要なリスナー。

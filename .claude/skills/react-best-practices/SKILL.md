@@ -1,147 +1,147 @@
 ---
 name: react-best-practices
 description:
-  React and Next.js performance optimization guidelines authored by Vercel Engineering. This skill should be used when the user asks to "optimize React performance", "reduce bundle size", "fix re-renders", "improve Next.js performance", "review React code", "refactor components", "optimize data fetching", "eliminate waterfalls", "improve SSR performance", or when writing, reviewing, or refactoring React/Next.js code involving components, pages, data fetching, bundle optimization, or rendering performance.
+  Vercel Engineeringが執筆したReactおよびNext.jsのパフォーマンス最適化ガイドライン。ユーザーが「Reactのパフォーマンスを最適化して」「バンドルサイズを削減して」「再レンダリングを修正して」「Next.jsのパフォーマンスを改善して」「Reactコードをレビューして」「コンポーネントをリファクタリングして」「データフェッチングを最適化して」「ウォーターフォールを排除して」「SSRパフォーマンスを改善して」と依頼した時、またはReact/Next.jsのコンポーネント、ページ、データフェッチング、バンドル最適化、レンダリングパフォーマンスに関わるコードの作成・レビュー・リファクタリングを行う時に使用する。
 ---
 
-# Vercel React Best Practices
+# Vercel React ベストプラクティス
 
-Comprehensive performance optimization guide for React and Next.js applications, authored by Vercel Engineering. Contains 57 rules across 8 categories, prioritized by impact to guide refactoring and code generation.
+Vercel Engineeringが執筆した、ReactおよびNext.jsアプリケーション向けの包括的なパフォーマンス最適化ガイド。8つのカテゴリにわたる57のルールを、リファクタリングやコード生成を導くための優先度順に整理しています。
 
-## When to Apply
+## 適用タイミング
 
-Apply these guidelines when:
-- Writing new React components or Next.js pages
-- Implementing data fetching (client or server-side)
-- Reviewing or refactoring React/Next.js code for performance
-- Optimizing bundle size, load times, or rendering
-- Debugging re-render issues or waterfall requests
+以下の場面でこのガイドラインを適用してください：
+- 新しいReactコンポーネントまたはNext.jsページを作成する時
+- データフェッチング（クライアントまたはサーバーサイド）を実装する時
+- React/Next.jsコードをパフォーマンスの観点からレビュー・リファクタリングする時
+- バンドルサイズ、ロード時間、レンダリングを最適化する時
+- 再レンダリングの問題やウォーターフォールリクエストをデバッグする時
 
-## Rule Categories
+## ルールカテゴリ
 
-Rules are grouped by domain. Each rule has its own impact level from the original source. Always prioritize CRITICAL and HIGH impact rules first.
+ルールはドメインごとにグループ化されています。各ルールにはオリジナルのソースによる影響レベルが設定されています。常にCRITICALとHIGHの影響レベルのルールを優先してください。
 
-## Quick Reference
+## クイックリファレンス
 
-### 1. Eliminating Waterfalls
+### 1. ウォーターフォールの排除
 
-| Rule | Impact | Description |
+| ルール | 影響 | 説明 |
 |------|--------|-------------|
-| `async-defer-await` | HIGH | Move await into branches where actually used |
-| `async-parallel` | CRITICAL | Use Promise.all() for independent operations |
-| `async-dependencies` | CRITICAL | Use better-all for partial dependencies |
-| `async-api-routes` | CRITICAL | Start promises early, await late in API routes |
-| `async-suspense-boundaries` | HIGH | Use Suspense to stream content |
+| `async-defer-await` | HIGH | 実際に使用するブランチにawaitを移動する |
+| `async-parallel` | CRITICAL | 独立した処理にはPromise.all()を使用する |
+| `async-dependencies` | CRITICAL | 部分的な依存関係にはbetter-allを使用する |
+| `async-api-routes` | CRITICAL | APIルートではPromiseを早めに開始し、awaitを遅らせる |
+| `async-suspense-boundaries` | HIGH | Suspenseを使用してコンテンツをストリーミングする |
 
-### 2. Bundle Size Optimization
+### 2. バンドルサイズの最適化
 
-| Rule | Impact | Description |
+| ルール | 影響 | 説明 |
 |------|--------|-------------|
-| `bundle-barrel-imports` | CRITICAL | Import directly, avoid barrel files |
-| `bundle-dynamic-imports` | CRITICAL | Use next/dynamic for heavy components |
-| `bundle-defer-third-party` | MEDIUM | Load analytics/logging after hydration |
-| `bundle-conditional` | HIGH | Load modules only when feature is activated |
-| `bundle-preload` | MEDIUM | Preload on hover/focus for perceived speed |
+| `bundle-barrel-imports` | CRITICAL | 直接インポートを使用し、バレルファイルを避ける |
+| `bundle-dynamic-imports` | CRITICAL | 重いコンポーネントにはnext/dynamicを使用する |
+| `bundle-defer-third-party` | MEDIUM | ハイドレーション後にアナリティクス/ログを読み込む |
+| `bundle-conditional` | HIGH | 機能が有効化された時のみモジュールを読み込む |
+| `bundle-preload` | MEDIUM | ホバー/フォーカス時にプリロードして体感速度を向上する |
 
-### 3. Server-Side Performance
+### 3. サーバーサイドのパフォーマンス
 
-| Rule | Impact | Description |
+| ルール | 影響 | 説明 |
 |------|--------|-------------|
-| `server-auth-actions` | CRITICAL | Authenticate server actions like API routes |
-| `server-parallel-fetching` | CRITICAL | Restructure components to parallelize fetches |
-| `server-cache-lru` | HIGH | Use LRU cache for cross-request caching |
-| `server-serialization` | HIGH | Minimize data passed to client components |
-| `server-cache-react` | MEDIUM | Use React.cache() for per-request deduplication |
-| `server-after-nonblocking` | MEDIUM | Use after() for non-blocking operations |
-| `server-dedup-props` | LOW | Avoid duplicate serialization in RSC props |
+| `server-auth-actions` | CRITICAL | サーバーアクションをAPIルートと同様に認証する |
+| `server-parallel-fetching` | CRITICAL | フェッチを並列化するようにコンポーネントを再構成する |
+| `server-cache-lru` | HIGH | クロスリクエストキャッシュにLRUキャッシュを使用する |
+| `server-serialization` | HIGH | クライアントコンポーネントへ渡すデータを最小化する |
+| `server-cache-react` | MEDIUM | リクエストごとの重複排除にReact.cache()を使用する |
+| `server-after-nonblocking` | MEDIUM | ノンブロッキング処理にafter()を使用する |
+| `server-dedup-props` | LOW | RSCのpropsで重複シリアライズを避ける |
 
-### 4. Client-Side Data Fetching
+### 4. クライアントサイドのデータフェッチング
 
-| Rule | Impact | Description |
+| ルール | 影響 | 説明 |
 |------|--------|-------------|
-| `client-swr-dedup` | MEDIUM-HIGH | Use SWR for automatic request deduplication |
-| `client-passive-event-listeners` | MEDIUM | Use passive listeners for scroll |
-| `client-localstorage-schema` | MEDIUM | Version and minimize localStorage data |
-| `client-event-listeners` | LOW | Deduplicate global event listeners |
+| `client-swr-dedup` | MEDIUM-HIGH | 自動的なリクエスト重複排除のためにSWRを使用する |
+| `client-passive-event-listeners` | MEDIUM | スクロールにはパッシブリスナーを使用する |
+| `client-localstorage-schema` | MEDIUM | localStorageのデータにバージョンを付けて最小化する |
+| `client-event-listeners` | LOW | グローバルイベントリスナーを重複排除する |
 
-### 5. Re-render Optimization
+### 5. 再レンダリングの最適化
 
-| Rule | Impact | Description |
+| ルール | 影響 | 説明 |
 |------|--------|-------------|
-| `rerender-defer-reads` | MEDIUM | Avoid subscribing to state only used in callbacks |
-| `rerender-memo` | MEDIUM | Extract expensive work into memoized components |
-| `rerender-memo-with-default-value` | MEDIUM | Hoist default non-primitive props |
-| `rerender-derived-state` | MEDIUM | Subscribe to derived booleans, not raw values |
-| `rerender-derived-state-no-effect` | MEDIUM | Derive state during render, not effects |
-| `rerender-functional-setstate` | MEDIUM | Use functional setState for stable callbacks |
-| `rerender-lazy-state-init` | MEDIUM | Pass function to useState for expensive values |
-| `rerender-move-effect-to-event` | MEDIUM | Put interaction logic in event handlers |
-| `rerender-transitions` | MEDIUM | Use startTransition for non-urgent updates |
-| `rerender-use-ref-transient-values` | MEDIUM | Use refs for transient frequent values |
-| `rerender-simple-expression-in-memo` | LOW-MEDIUM | Avoid memo for simple primitives |
-| `rerender-dependencies` | LOW | Use primitive dependencies in effects |
+| `rerender-defer-reads` | MEDIUM | コールバックのみで使用するstateの購読を避ける |
+| `rerender-memo` | MEDIUM | 高コストな処理をメモ化コンポーネントに抽出する |
+| `rerender-memo-with-default-value` | MEDIUM | デフォルトの非プリミティブpropsをホイストする |
+| `rerender-derived-state` | MEDIUM | 生の値ではなく派生ブーリアンを購読する |
+| `rerender-derived-state-no-effect` | MEDIUM | エフェクトではなくレンダリング中に状態を派生させる |
+| `rerender-functional-setstate` | MEDIUM | 安定したコールバックには関数型setStateを使用する |
+| `rerender-lazy-state-init` | MEDIUM | 高コストな値にはuseStateに関数を渡す |
+| `rerender-move-effect-to-event` | MEDIUM | インタラクションロジックはイベントハンドラに置く |
+| `rerender-transitions` | MEDIUM | 緊急でない更新にはstartTransitionを使用する |
+| `rerender-use-ref-transient-values` | MEDIUM | 一時的な頻繁に変化する値にはrefを使用する |
+| `rerender-simple-expression-in-memo` | LOW-MEDIUM | 単純なプリミティブにmemoを使用しない |
+| `rerender-dependencies` | LOW | エフェクトにはプリミティブな依存関係を使用する |
 
-### 6. Rendering Performance
+### 6. レンダリングパフォーマンス
 
-| Rule | Impact | Description |
+| ルール | 影響 | 説明 |
 |------|--------|-------------|
-| `rendering-content-visibility` | HIGH | Use content-visibility for long lists |
-| `rendering-activity` | MEDIUM | Use Activity component for show/hide |
-| `rendering-hydration-no-flicker` | MEDIUM | Use inline script for client-only data |
-| `rendering-hydration-suppress-warning` | LOW-MEDIUM | Suppress expected mismatches |
-| `rendering-animate-svg-wrapper` | LOW | Animate div wrapper, not SVG element |
-| `rendering-hoist-jsx` | LOW | Extract static JSX outside components |
-| `rendering-svg-precision` | LOW | Reduce SVG coordinate precision |
-| `rendering-conditional-render` | LOW | Use ternary when condition can be falsy non-boolean |
-| `rendering-usetransition-loading` | LOW | Prefer useTransition for loading state |
+| `rendering-content-visibility` | HIGH | 長いリストにはcontent-visibilityを使用する |
+| `rendering-activity` | MEDIUM | 表示/非表示にはActivityコンポーネントを使用する |
+| `rendering-hydration-no-flicker` | MEDIUM | クライアント専用データにはインラインスクリプトを使用する |
+| `rendering-hydration-suppress-warning` | LOW-MEDIUM | 想定されるミスマッチを抑制する |
+| `rendering-animate-svg-wrapper` | LOW | SVG要素ではなくdivラッパーをアニメーション化する |
+| `rendering-hoist-jsx` | LOW | 静的なJSXをコンポーネント外に抽出する |
+| `rendering-svg-precision` | LOW | SVG座標の精度を下げる |
+| `rendering-conditional-render` | LOW | 条件がfalsyな非ブーリアンになり得る場合は三項演算子を使用する |
+| `rendering-usetransition-loading` | LOW | ローディング状態にはuseTransitionを優先する |
 
-### 7. JavaScript Performance
+### 7. JavaScriptパフォーマンス
 
-| Rule | Impact | Description |
+| ルール | 影響 | 説明 |
 |------|--------|-------------|
-| `js-length-check-first` | MEDIUM-HIGH | Check array length before expensive comparison |
-| `js-tosorted-immutable` | MEDIUM-HIGH | Use toSorted() to prevent mutation bugs in React state |
-| `js-batch-dom-css` | MEDIUM | Avoid layout thrashing by batching style writes |
-| `js-cache-function-results` | MEDIUM | Cache function results in module-level Map |
-| `js-index-maps` | LOW-MEDIUM | Build Map for repeated lookups |
-| `js-cache-property-access` | LOW-MEDIUM | Cache object properties in loops |
-| `js-cache-storage` | LOW-MEDIUM | Cache localStorage/sessionStorage reads |
-| `js-combine-iterations` | LOW-MEDIUM | Combine multiple filter/map into one loop |
-| `js-early-exit` | LOW-MEDIUM | Return early from functions |
-| `js-hoist-regexp` | LOW-MEDIUM | Hoist RegExp creation outside loops |
-| `js-set-map-lookups` | LOW-MEDIUM | Use Set/Map for O(1) lookups |
-| `js-min-max-loop` | LOW | Use loop for min/max instead of sort |
+| `js-length-check-first` | MEDIUM-HIGH | 高コストな比較の前に配列の長さを確認する |
+| `js-tosorted-immutable` | MEDIUM-HIGH | Reactの状態でのミューテーションバグを防ぐためにtoSorted()を使用する |
+| `js-batch-dom-css` | MEDIUM | スタイルの書き込みをバッチ処理してレイアウトスラッシングを避ける |
+| `js-cache-function-results` | MEDIUM | 関数の結果をモジュールレベルのMapにキャッシュする |
+| `js-index-maps` | LOW-MEDIUM | 繰り返し検索にはMapを構築する |
+| `js-cache-property-access` | LOW-MEDIUM | ループ内でオブジェクトのプロパティをキャッシュする |
+| `js-cache-storage` | LOW-MEDIUM | localStorageとsessionStorageの読み取りをキャッシュする |
+| `js-combine-iterations` | LOW-MEDIUM | 複数のfilter/mapを1つのループにまとめる |
+| `js-early-exit` | LOW-MEDIUM | 関数から早期リターンする |
+| `js-hoist-regexp` | LOW-MEDIUM | RegExpの生成をループ外にホイストする |
+| `js-set-map-lookups` | LOW-MEDIUM | O(1)検索にはSetとMapを使用する |
+| `js-min-max-loop` | LOW | ソートの代わりにループでmin/maxを求める |
 
-### 8. Advanced Patterns
+### 8. 高度なパターン
 
-| Rule | Impact | Description |
+| ルール | 影響 | 説明 |
 |------|--------|-------------|
-| `advanced-init-once` | LOW-MEDIUM | Initialize app once per app load |
-| `advanced-event-handler-refs` | LOW | Store event handlers in refs |
-| `advanced-use-latest` | LOW | useEffectEvent for stable callback refs |
+| `advanced-init-once` | LOW-MEDIUM | アプリの起動時に1回だけ初期化する |
+| `advanced-event-handler-refs` | LOW | イベントハンドラをrefsに格納する |
+| `advanced-use-latest` | LOW | 安定したコールバックrefにはuseEffectEventを使用する |
 
-## How to Use
+## 使い方
 
-Read individual rule files in `references/` for detailed explanations and code examples. Each rule file contains:
-- Brief explanation of why the pattern matters
-- Incorrect code example with explanation
-- Correct code example with explanation
-- Additional context and trade-offs
+`references/`内の個別のルールファイルを読んで詳細な説明とコード例を確認してください。各ルールファイルには以下が含まれています：
+- そのパターンが重要な理由の簡単な説明
+- 問題のあるコード例と説明
+- 正しいコード例と説明
+- 追加のコンテキストとトレードオフ
 
-To look up a specific rule:
+特定のルールを参照するには：
 
 ```
 references/<prefix>-<rule-name>.md
 ```
 
-For example: `references/async-parallel.md`, `references/bundle-barrel-imports.md`
+例：`references/async-parallel.md`、`references/bundle-barrel-imports.md`
 
-When reviewing code, start with CRITICAL rules (async-*, bundle-*) and work down the priority list.
+コードをレビューする際は、CRITICALルール（async-*、bundle-*）から始めて優先度リストを下に進んでください。
 
-## Examples
+## 使用例
 
-Complete before/after scenarios combining multiple rules in real-world contexts:
+複数のルールを実際のコンテキストで組み合わせた完全なbefore/afterシナリオ：
 
-- **`examples/nextjs-dashboard-page.md`** - Dashboard page: waterfall elimination + parallel fetching + bundle optimization + SSR
-- **`examples/rerender-optimization-form.md`** - Form component: derived state + functional setState + lazy init + event handlers
-- **`examples/bundle-optimization-landing.md`** - Landing page: dynamic imports + deferred third-party + conditional loading + preload
+- **`examples/nextjs-dashboard-page.md`** - ダッシュボードページ：ウォーターフォール排除 + 並列フェッチング + バンドル最適化 + SSR
+- **`examples/rerender-optimization-form.md`** - フォームコンポーネント：派生状態 + 関数型setState + 遅延初期化 + イベントハンドラ
+- **`examples/bundle-optimization-landing.md`** - ランディングページ：動的インポート + サードパーティの遅延読み込み + 条件付き読み込み + プリロード

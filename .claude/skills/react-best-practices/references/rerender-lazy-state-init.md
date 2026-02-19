@@ -1,22 +1,22 @@
 ---
-title: Use Lazy State Initialization
+title: 遅延state初期化を使用する
 impact: MEDIUM
 impactDescription: wasted computation on every render
 tags: react, hooks, useState, performance, initialization
 ---
 
-## Use Lazy State Initialization
+## 遅延state初期化を使用する
 
-Pass a function to `useState` for expensive initial values. Without the function form, the initializer runs on every render even though the value is only used once.
+高コストな初期値には`useState`に関数を渡します。関数形式を使用しないと、初期化処理はレンダリングのたびに実行されますが、その値は初回しか使用されません。
 
-**Incorrect (runs on every render):**
+**誤り（レンダリングのたびに実行される）：**
 
 ```tsx
 function FilteredList({ items }: { items: Item[] }) {
   // buildSearchIndex() runs on EVERY render, even after initialization
   const [searchIndex, setSearchIndex] = useState(buildSearchIndex(items))
   const [query, setQuery] = useState('')
-  
+
   // When query changes, buildSearchIndex runs again unnecessarily
   return <SearchResults index={searchIndex} query={query} />
 }
@@ -26,19 +26,19 @@ function UserProfile() {
   const [settings, setSettings] = useState(
     JSON.parse(localStorage.getItem('settings') || '{}')
   )
-  
+
   return <SettingsForm settings={settings} onChange={setSettings} />
 }
 ```
 
-**Correct (runs only once):**
+**正しい（1回だけ実行される）：**
 
 ```tsx
 function FilteredList({ items }: { items: Item[] }) {
   // buildSearchIndex() runs ONLY on initial render
   const [searchIndex, setSearchIndex] = useState(() => buildSearchIndex(items))
   const [query, setQuery] = useState('')
-  
+
   return <SearchResults index={searchIndex} query={query} />
 }
 
@@ -48,11 +48,11 @@ function UserProfile() {
     const stored = localStorage.getItem('settings')
     return stored ? JSON.parse(stored) : {}
   })
-  
+
   return <SettingsForm settings={settings} onChange={setSettings} />
 }
 ```
 
-Use lazy initialization when computing initial values from localStorage/sessionStorage, building data structures (indexes, maps), reading from the DOM, or performing heavy transformations.
+遅延初期化を使用すべき場面：localStorage/sessionStorageからの初期値の計算、データ構造（インデックス、Map）の構築、DOMからの読み取り、重い変換処理。
 
-For simple primitives (`useState(0)`), direct references (`useState(props.value)`), or cheap literals (`useState({})`), the function form is unnecessary.
+単純なプリミティブ（`useState(0)`）、直接参照（`useState(props.value)`）、安価なリテラル（`useState({})`）には関数形式は不要です。

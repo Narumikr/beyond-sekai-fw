@@ -1,15 +1,15 @@
 ---
-title: Avoid Layout Thrashing
+title: レイアウトスラッシングを避ける
 impact: MEDIUM
 impactDescription: prevents forced synchronous layouts and reduces performance bottlenecks
 tags: javascript, dom, css, performance, reflow, layout-thrashing
 ---
 
-## Avoid Layout Thrashing
+## レイアウトスラッシングを避ける
 
-Avoid interleaving style writes with layout reads. When you read a layout property (like `offsetWidth`, `getBoundingClientRect()`, or `getComputedStyle()`) between style changes, the browser is forced to trigger a synchronous reflow.
+スタイルの書き込みとレイアウトの読み取りを交互に行わないようにしてください。スタイル変更の間にレイアウトプロパティ（`offsetWidth`、`getBoundingClientRect()`、`getComputedStyle()`など）を読み取ると、ブラウザは強制的に同期リフローを行います。
 
-**This is OK (browser batches style changes):**
+**問題なし（ブラウザがスタイル変更をバッチ処理）：**
 ```typescript
 function updateElementStyles(element: HTMLElement) {
   // Each line invalidates style, but browser batches the recalculation
@@ -20,7 +20,7 @@ function updateElementStyles(element: HTMLElement) {
 }
 ```
 
-**Incorrect (interleaved reads and writes force reflows):**
+**誤り（読み書きの交互実行によりリフローが強制される）：**
 ```typescript
 function layoutThrashing(element: HTMLElement) {
   element.style.width = '100px'
@@ -30,7 +30,7 @@ function layoutThrashing(element: HTMLElement) {
 }
 ```
 
-**Correct (batch writes, then read once):**
+**正しい（書き込みをバッチ処理してから1回だけ読み取る）：**
 ```typescript
 function updateElementStyles(element: HTMLElement) {
   // Batch all writes together
@@ -38,27 +38,27 @@ function updateElementStyles(element: HTMLElement) {
   element.style.height = '200px'
   element.style.backgroundColor = 'blue'
   element.style.border = '1px solid black'
-  
+
   // Read after all writes are done (single reflow)
   const { width, height } = element.getBoundingClientRect()
 }
 ```
 
-**Correct (batch reads, then writes):**
+**正しい（読み取りをバッチ処理してから書き込む）：**
 ```typescript
 function avoidThrashing(element: HTMLElement) {
   // Read phase - all layout queries first
   const rect1 = element.getBoundingClientRect()
   const offsetWidth = element.offsetWidth
   const offsetHeight = element.offsetHeight
-  
+
   // Write phase - all style changes after
   element.style.width = '100px'
   element.style.height = '200px'
 }
 ```
 
-**Better: use CSS classes**
+**より良い方法：CSSクラスを使用する**
 ```css
 .highlighted-box {
   width: 100px;
@@ -70,17 +70,17 @@ function avoidThrashing(element: HTMLElement) {
 ```typescript
 function updateElementStyles(element: HTMLElement) {
   element.classList.add('highlighted-box')
-  
+
   const { width, height } = element.getBoundingClientRect()
 }
 ```
 
-**React example:**
+**Reactの例：**
 ```tsx
 // Incorrect: interleaving style changes with layout queries
 function Box({ isHighlighted }: { isHighlighted: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
-  
+
   useEffect(() => {
     if (ref.current && isHighlighted) {
       ref.current.style.width = '100px'
@@ -88,7 +88,7 @@ function Box({ isHighlighted }: { isHighlighted: boolean }) {
       ref.current.style.height = '200px'
     }
   }, [isHighlighted])
-  
+
   return <div ref={ref}>Content</div>
 }
 
@@ -102,6 +102,6 @@ function Box({ isHighlighted }: { isHighlighted: boolean }) {
 }
 ```
 
-Prefer CSS classes over inline styles when possible. CSS files are cached by the browser, and classes provide better separation of concerns and are easier to maintain.
+可能な場合はインラインスタイルよりCSSクラスを優先してください。CSSファイルはブラウザにキャッシュされ、クラスは関心の分離を促進し、保守しやすくなります。
 
-See [this gist](https://gist.github.com/paulirish/5d52fb081b3570c81e3a) and [CSS Triggers](https://csstriggers.com/) for more information on layout-forcing operations.
+レイアウトを強制する処理の詳細は[このgist](https://gist.github.com/paulirish/5d52fb081b3570c81e3a)と[CSS Triggers](https://csstriggers.com/)を参照してください。

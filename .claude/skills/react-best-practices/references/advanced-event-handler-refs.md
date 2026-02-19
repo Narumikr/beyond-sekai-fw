@@ -1,15 +1,15 @@
 ---
-title: Store Event Handlers in Refs
+title: イベントハンドラをRefsに格納する
 impact: LOW
 impactDescription: stable subscriptions
 tags: advanced, hooks, refs, event-handlers, optimization
 ---
 
-## Store Event Handlers in Refs
+## イベントハンドラをRefsに格納する
 
-Store callbacks in refs when used in effects that shouldn't re-subscribe on callback changes.
+コールバックの変更時に再サブスクライブすべきでないエフェクトで使用されるコールバックは、refに格納してください。
 
-**Incorrect (re-subscribes on every render):**
+**誤り（レンダリングのたびに再サブスクライブする）：**
 
 ```tsx
 function useWindowEvent(event: string, handler: (e) => void) {
@@ -20,7 +20,7 @@ function useWindowEvent(event: string, handler: (e) => void) {
 }
 ```
 
-**Correct (stable subscription):**
+**正しい（安定したサブスクリプション）：**
 
 ```tsx
 function useWindowEvent(event: string, handler: (e) => void) {
@@ -37,7 +37,7 @@ function useWindowEvent(event: string, handler: (e) => void) {
 }
 ```
 
-**Alternative: use `useEffectEvent` if you're on latest React:**
+**代替案：最新のReactを使用している場合は`useEffectEvent`を使用する：**
 
 ```tsx
 import { useEffectEvent } from 'react'
@@ -52,4 +52,4 @@ function useWindowEvent(event: string, handler: (e) => void) {
 }
 ```
 
-`useEffectEvent` provides a cleaner API for the same pattern: it creates a stable function reference that always calls the latest version of the handler.
+`useEffectEvent`は同じパターンに対してよりクリーンなAPIを提供します。常にハンドラーの最新バージョンを呼び出す安定した関数参照を作成します。

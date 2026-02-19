@@ -1,15 +1,15 @@
 ---
-title: Dependency-Based Parallelization
+title: 依存関係ベースの並列化
 impact: CRITICAL
 impactDescription: 2-10× improvement
 tags: async, parallelization, dependencies, better-all
 ---
 
-## Dependency-Based Parallelization
+## 依存関係ベースの並列化
 
-For operations with partial dependencies, use `better-all` to maximize parallelism. It automatically starts each task at the earliest possible moment.
+部分的な依存関係を持つ処理には、`better-all`を使用して並列性を最大化します。各タスクを可能な限り早い段階で自動的に開始します。
 
-**Incorrect (profile waits for config unnecessarily):**
+**誤り（profileが不必要にconfigを待つ）：**
 
 ```typescript
 const [user, config] = await Promise.all([
@@ -19,7 +19,7 @@ const [user, config] = await Promise.all([
 const profile = await fetchProfile(user.id)
 ```
 
-**Correct (config and profile run in parallel):**
+**正しい（configとprofileを並列実行）：**
 
 ```typescript
 import { all } from 'better-all'
@@ -33,9 +33,9 @@ const { user, config, profile } = await all({
 })
 ```
 
-**Alternative without extra dependencies:**
+**追加依存なしの代替案：**
 
-We can also create all the promises first, and do `Promise.all()` at the end.
+全てのPromiseを最初に作成し、最後に`Promise.all()`を実行することもできます。
 
 ```typescript
 const userPromise = fetchUser()
@@ -48,4 +48,4 @@ const [user, config, profile] = await Promise.all([
 ])
 ```
 
-Reference: [https://github.com/shuding/better-all](https://github.com/shuding/better-all)
+参考：[https://github.com/shuding/better-all](https://github.com/shuding/better-all)

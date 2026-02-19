@@ -1,15 +1,15 @@
 ---
-title: Parallel Data Fetching with Component Composition
+title: コンポーネントコンポジションによる並列データフェッチング
 impact: CRITICAL
 impactDescription: eliminates server-side waterfalls
 tags: server, rsc, parallel-fetching, composition
 ---
 
-## Parallel Data Fetching with Component Composition
+## コンポーネントコンポジションによる並列データフェッチング
 
-React Server Components execute sequentially within a tree. Restructure with composition to parallelize data fetching.
+React Server Componentsはツリー内で逐次実行されます。データフェッチングを並列化するためにコンポジションを使って再構成します。
 
-**Incorrect (Sidebar waits for Page's fetch to complete):**
+**誤り（SidebarはPageのフェッチ完了を待つ）：**
 
 ```tsx
 export default async function Page() {
@@ -28,7 +28,7 @@ async function Sidebar() {
 }
 ```
 
-**Correct (both fetch simultaneously):**
+**正しい（両方が同時にフェッチする）：**
 
 ```tsx
 async function Header() {
@@ -51,7 +51,7 @@ export default function Page() {
 }
 ```
 
-**Alternative with children prop:**
+**childrenプロップを使った代替案：**
 
 ```tsx
 async function Header() {

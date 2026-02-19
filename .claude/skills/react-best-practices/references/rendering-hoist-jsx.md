@@ -1,15 +1,15 @@
 ---
-title: Hoist Static JSX Elements
+title: 静的なJSX要素をホイストする
 impact: LOW
 impactDescription: avoids re-creation
 tags: rendering, jsx, static, optimization
 ---
 
-## Hoist Static JSX Elements
+## 静的なJSX要素をホイストする
 
-Extract static JSX outside components to avoid re-creation.
+再生成を避けるために、静的なJSXをコンポーネント外に抽出します。
 
-**Incorrect (recreates element every render):**
+**誤り（レンダリングのたびに要素を再生成する）：**
 
 ```tsx
 function LoadingSkeleton() {
@@ -25,7 +25,7 @@ function Container() {
 }
 ```
 
-**Correct (reuses same element):**
+**正しい（同じ要素を再利用する）：**
 
 ```tsx
 const loadingSkeleton = (
@@ -41,6 +41,6 @@ function Container() {
 }
 ```
 
-This is especially helpful for large and static SVG nodes, which can be expensive to recreate on every render.
+これは特に大きな静的SVGノードに効果的です。レンダリングのたびに再生成するコストが高い場合に役立ちます。
 
-**Note:** If your project has [React Compiler](https://react.dev/learn/react-compiler) enabled, the compiler automatically hoists static JSX elements and optimizes component re-renders, making manual hoisting unnecessary.
+**注意：** プロジェクトで[React Compiler](https://react.dev/learn/react-compiler)が有効になっている場合、コンパイラが自動的に静的JSX要素をホイストしてコンポーネントの再レンダリングを最適化するため、手動でのホイストは不要です。

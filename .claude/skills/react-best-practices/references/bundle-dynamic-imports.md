@@ -1,15 +1,15 @@
 ---
-title: Dynamic Imports for Heavy Components
+title: 重いコンポーネントには動的インポートを使用する
 impact: CRITICAL
 impactDescription: directly affects TTI and LCP
 tags: bundle, dynamic-import, code-splitting, next-dynamic
 ---
 
-## Dynamic Imports for Heavy Components
+## 重いコンポーネントには動的インポートを使用する
 
-Use `next/dynamic` to lazy-load large components not needed on initial render.
+初期レンダリングに不要な大きなコンポーネントを遅延読み込みするために`next/dynamic`を使用します。
 
-**Incorrect (Monaco bundles with main chunk ~300KB):**
+**誤り（MonacoがメインチャンクとともにバンドルされてしまうF〜300KB）：**
 
 ```tsx
 import { MonacoEditor } from './monaco-editor'
@@ -19,7 +19,7 @@ function CodePanel({ code }: { code: string }) {
 }
 ```
 
-**Correct (Monaco loads on demand):**
+**正しい（Monacoをオンデマンドで読み込む）：**
 
 ```tsx
 import dynamic from 'next/dynamic'

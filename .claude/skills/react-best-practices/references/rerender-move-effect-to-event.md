@@ -1,15 +1,15 @@
 ---
-title: Put Interaction Logic in Event Handlers
+title: インタラクションロジックをイベントハンドラに置く
 impact: MEDIUM
 impactDescription: avoids effect re-runs and duplicate side effects
 tags: rerender, useEffect, events, side-effects, dependencies
 ---
 
-## Put Interaction Logic in Event Handlers
+## インタラクションロジックをイベントハンドラに置く
 
-If a side effect is triggered by a specific user action (submit, click, drag), run it in that event handler. Do not model the action as state + effect; it makes effects re-run on unrelated changes and can duplicate the action.
+副作用が特定のユーザーアクション（送信、クリック、ドラッグ）によってトリガーされる場合は、そのイベントハンドラ内で実行します。アクションをstate+エフェクトとしてモデル化しないでください。エフェクトが無関係な変更時にも再実行され、アクションが重複する可能性があります。
 
-**Incorrect (event modeled as state + effect):**
+**誤り（イベントをstate+エフェクトとしてモデル化）：**
 
 ```tsx
 function Form() {
@@ -27,7 +27,7 @@ function Form() {
 }
 ```
 
-**Correct (do it in the handler):**
+**正しい（ハンドラで処理する）：**
 
 ```tsx
 function Form() {
@@ -42,4 +42,4 @@ function Form() {
 }
 ```
 
-Reference: [Should this code move to an event handler?](https://react.dev/learn/removing-effect-dependencies#should-this-code-move-to-an-event-handler)
+参考：[このコードはイベントハンドラに移すべきか？](https://react.dev/learn/removing-effect-dependencies#should-this-code-move-to-an-event-handler)

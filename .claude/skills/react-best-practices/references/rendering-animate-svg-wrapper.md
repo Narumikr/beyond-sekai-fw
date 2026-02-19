@@ -1,23 +1,23 @@
 ---
-title: Animate SVG Wrapper Instead of SVG Element
+title: SVG要素ではなくSVGのラッパーをアニメーション化する
 impact: LOW
 impactDescription: enables hardware acceleration
 tags: rendering, svg, css, animation, performance
 ---
 
-## Animate SVG Wrapper Instead of SVG Element
+## SVG要素ではなくSVGのラッパーをアニメーション化する
 
-Many browsers don't have hardware acceleration for CSS3 animations on SVG elements. Wrap SVG in a `<div>` and animate the wrapper instead.
+多くのブラウザはSVG要素に対するCSSアニメーションのハードウェアアクセラレーションをサポートしていません。SVGを`<div>`でラップして、ラッパーをアニメーション化します。
 
-**Incorrect (animating SVG directly - no hardware acceleration):**
+**誤り（SVGを直接アニメーション化する - ハードウェアアクセラレーションなし）：**
 
 ```tsx
 function LoadingSpinner() {
   return (
-    <svg 
+    <svg
       className="animate-spin"
-      width="24" 
-      height="24" 
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
     >
       <circle cx="12" cy="12" r="10" stroke="currentColor" />
@@ -26,15 +26,15 @@ function LoadingSpinner() {
 }
 ```
 
-**Correct (animating wrapper div - hardware accelerated):**
+**正しい（ラッパーdivをアニメーション化する - ハードウェアアクセラレーション）：**
 
 ```tsx
 function LoadingSpinner() {
   return (
     <div className="animate-spin">
-      <svg 
-        width="24" 
-        height="24" 
+      <svg
+        width="24"
+        height="24"
         viewBox="0 0 24 24"
       >
         <circle cx="12" cy="12" r="10" stroke="currentColor" />
@@ -44,4 +44,4 @@ function LoadingSpinner() {
 }
 ```
 
-This applies to all CSS transforms and transitions (`transform`, `opacity`, `translate`, `scale`, `rotate`). The wrapper div allows browsers to use GPU acceleration for smoother animations.
+これはすべてのCSSトランスフォームとトランジション（`transform`、`opacity`、`translate`、`scale`、`rotate`）に適用されます。ラッパーdivにより、ブラウザがGPUアクセラレーションを使用して滑らかなアニメーションを実現できます。

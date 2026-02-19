@@ -1,8 +1,8 @@
-# Example: Next.js Dashboard Page Optimization
+# 例：Next.js ダッシュボードページの最適化
 
-A real-world dashboard page applying multiple optimization rules together.
+複数の最適化ルールを組み合わせた実際のダッシュボードページの例。
 
-## Before (6 issues)
+## Before（6つの問題）
 
 ```tsx
 // app/dashboard/page.tsx
@@ -38,7 +38,7 @@ function StatsPanel({ stats, user, activities }: {
 }
 ```
 
-## After (all 6 issues fixed)
+## After（6つの問題すべてを修正）
 
 ```tsx
 // app/dashboard/page.tsx
@@ -101,13 +101,13 @@ function StatsPanel({ userName, total, activityCount }: {
 }
 ```
 
-## Applied Rules
+## 適用されたルール
 
-| Rule | Impact | What Changed |
+| ルール | 影響 | 変更内容 |
 |------|--------|-------------|
-| `async-parallel` | CRITICAL | Sequential awaits → Promise.all() |
-| `bundle-barrel-imports` | CRITICAL | Barrel imports → direct file imports |
-| `bundle-dynamic-imports` | CRITICAL | Static Chart import → next/dynamic |
-| `server-serialization` | HIGH | Minimized data passed to client |
-| `server-cache-react` | MEDIUM | getCurrentUser wrapped in React.cache() |
-| `server-dedup-props` | LOW | Full objects → primitive props only |
+| `async-parallel` | CRITICAL | 逐次的なawait → Promise.all() |
+| `bundle-barrel-imports` | CRITICAL | バレルインポート → 直接ファイルインポート |
+| `bundle-dynamic-imports` | CRITICAL | 静的なChartインポート → next/dynamic |
+| `server-serialization` | HIGH | クライアントへ渡すデータを最小化 |
+| `server-cache-react` | MEDIUM | getCurrentUserをReact.cache()でラップ |
+| `server-dedup-props` | LOW | フルオブジェクト → プリミティブpropsのみ |

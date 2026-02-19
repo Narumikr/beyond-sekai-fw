@@ -1,15 +1,15 @@
 ---
-title: Cache Property Access in Loops
+title: ループ内でプロパティアクセスをキャッシュする
 impact: LOW-MEDIUM
 impactDescription: reduces lookups
 tags: javascript, loops, optimization, caching
 ---
 
-## Cache Property Access in Loops
+## ループ内でプロパティアクセスをキャッシュする
 
-Cache object property lookups in hot paths.
+ホットパスにおけるオブジェクトのプロパティ参照をキャッシュします。
 
-**Incorrect (3 lookups × N iterations):**
+**誤り（3回の参照 × N回の繰り返し）：**
 
 ```typescript
 for (let i = 0; i < arr.length; i++) {
@@ -17,7 +17,7 @@ for (let i = 0; i < arr.length; i++) {
 }
 ```
 
-**Correct (1 lookup total):**
+**正しい（合計1回の参照）：**
 
 ```typescript
 const value = obj.config.settings.value

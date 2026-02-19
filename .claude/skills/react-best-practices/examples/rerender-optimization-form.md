@@ -1,8 +1,8 @@
-# Example: Re-render Optimized Form Component
+# 例：再レンダリング最適化されたフォームコンポーネント
 
-A form component applying multiple re-render optimization rules together.
+複数の再レンダリング最適化ルールを組み合わせたフォームコンポーネントの例。
 
-## Before (5 issues)
+## Before（5つの問題）
 
 ```tsx
 'use client'
@@ -60,7 +60,7 @@ function ProductForm({ categories }: { categories: Category[] }) {
 }
 ```
 
-## After (all 5 issues fixed)
+## After（5つの問題すべてを修正）
 
 ```tsx
 'use client'
@@ -111,13 +111,13 @@ function ProductForm({ categories }: { categories: Category[] }) {
 }
 ```
 
-## Applied Rules
+## 適用されたルール
 
-| Rule | Impact | What Changed |
+| ルール | 影響 | 変更内容 |
 |------|--------|-------------|
-| `rerender-derived-state` | MEDIUM | windowWidth subscription → useMediaQuery boolean |
-| `rerender-derived-state-no-effect` | MEDIUM | Effect-based derived state → computed during render |
-| `rerender-functional-setstate` | MEDIUM | Spread setState → functional updater (stable callback) |
-| `rerender-lazy-state-init` | MEDIUM | Direct value → factory function in useState |
-| `rerender-move-effect-to-event` | MEDIUM | Validation effect → event handler logic |
-| `js-tosorted-immutable` | MEDIUM-HIGH | Mutating sort() → immutable toSorted() |
+| `rerender-derived-state` | MEDIUM | windowWidthの購読 → useMediaQuery ブーリアン |
+| `rerender-derived-state-no-effect` | MEDIUM | エフェクトによる派生状態 → レンダリング中に計算 |
+| `rerender-functional-setstate` | MEDIUM | スプレッドsetState → 関数型アップデーター（安定したコールバック） |
+| `rerender-lazy-state-init` | MEDIUM | 直接の値 → useStateにファクトリー関数を渡す |
+| `rerender-move-effect-to-event` | MEDIUM | バリデーションエフェクト → イベントハンドラのロジック |
+| `js-tosorted-immutable` | MEDIUM-HIGH | ミューテーションするsort() → イミュータブルなtoSorted() |

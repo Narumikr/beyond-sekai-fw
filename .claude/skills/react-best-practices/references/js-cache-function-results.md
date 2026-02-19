@@ -1,15 +1,15 @@
 ---
-title: Cache Repeated Function Calls
+title: 繰り返し呼ばれる関数の結果をキャッシュする
 impact: MEDIUM
 impactDescription: avoid redundant computation
 tags: javascript, cache, memoization, performance
 ---
 
-## Cache Repeated Function Calls
+## 繰り返し呼ばれる関数の結果をキャッシュする
 
-Use a module-level Map to cache function results when the same function is called repeatedly with the same inputs during render.
+レンダリング中に同じ入力で同じ関数が繰り返し呼ばれる場合、モジュールレベルのMapを使用して結果をキャッシュします。
 
-**Incorrect (redundant computation):**
+**誤り（冗長な計算）：**
 
 ```typescript
 function ProjectList({ projects }: { projects: Project[] }) {
@@ -18,7 +18,7 @@ function ProjectList({ projects }: { projects: Project[] }) {
       {projects.map(project => {
         // slugify() called 100+ times for same project names
         const slug = slugify(project.name)
-        
+
         return <ProjectCard key={project.id} slug={slug} />
       })}
     </div>
@@ -26,7 +26,7 @@ function ProjectList({ projects }: { projects: Project[] }) {
 }
 ```
 
-**Correct (cached results):**
+**正しい（キャッシュした結果）：**
 
 ```typescript
 // Module-level cache
@@ -47,7 +47,7 @@ function ProjectList({ projects }: { projects: Project[] }) {
       {projects.map(project => {
         // Computed only once per unique project name
         const slug = cachedSlugify(project.name)
-        
+
         return <ProjectCard key={project.id} slug={slug} />
       })}
     </div>
@@ -55,7 +55,7 @@ function ProjectList({ projects }: { projects: Project[] }) {
 }
 ```
 
-**Simpler pattern for single-value functions:**
+**単一値関数のシンプルなパターン：**
 
 ```typescript
 let isLoggedInCache: boolean | null = null
@@ -64,7 +64,7 @@ function isLoggedIn(): boolean {
   if (isLoggedInCache !== null) {
     return isLoggedInCache
   }
-  
+
   isLoggedInCache = document.cookie.includes('auth=')
   return isLoggedInCache
 }
@@ -75,6 +75,6 @@ function onAuthChange() {
 }
 ```
 
-Use a Map (not a hook) so it works everywhere: utilities, event handlers, not just React components.
+フック以外でも使えるよう、（フックではなく）Mapを使用します。ユーティリティ、イベントハンドラ、Reactコンポーネント以外でも動作します。
 
-Reference: [How we made the Vercel Dashboard twice as fast](https://vercel.com/blog/how-we-made-the-vercel-dashboard-twice-as-fast)
+参考：[Vercel DashboardをF倍速にした方法](https://vercel.com/blog/how-we-made-the-vercel-dashboard-twice-as-fast)

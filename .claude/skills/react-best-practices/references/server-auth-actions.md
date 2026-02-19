@@ -1,19 +1,19 @@
 ---
-title: Authenticate Server Actions Like API Routes
+title: Server ActionをAPIルートと同様に認証する
 impact: CRITICAL
 impactDescription: prevents unauthorized access to server mutations
 tags: server, server-actions, authentication, security, authorization
 ---
 
-## Authenticate Server Actions Like API Routes
+## Server ActionをAPIルートと同様に認証する
 
-**Impact: CRITICAL (prevents unauthorized access to server mutations)**
+**影響：CRITICAL（サーバーミューテーションへの不正アクセスを防ぐ）**
 
-Server Actions (functions with `"use server"`) are exposed as public endpoints, just like API routes. Always verify authentication and authorization **inside** each Server Action—do not rely solely on middleware, layout guards, or page-level checks, as Server Actions can be invoked directly.
+Server Action（`"use server"`を持つ関数）はAPIルートと同様にパブリックなエンドポイントとして公開されます。Server Actionは直接呼び出せるため、ミドルウェアやレイアウトガード、ページレベルのチェックのみに頼らず、常に各Server Action**内部**で認証と認可を確認してください。
 
-Next.js documentation explicitly states: "Treat Server Actions with the same security considerations as public-facing API endpoints, and verify if the user is allowed to perform a mutation."
+Next.jsのドキュメントでは明示的に「Server Actionはパブリックに公開されているAPIエンドポイントと同じセキュリティ上の配慮を持って扱い、ユーザーがミューテーションを実行することが許可されているか確認してください」と述べています。
 
-**Incorrect (no authentication check):**
+**誤り（認証チェックなし）：**
 
 ```typescript
 'use server'
@@ -25,7 +25,7 @@ export async function deleteUser(userId: string) {
 }
 ```
 
-**Correct (authentication inside the action):**
+**正しい（アクション内部での認証）：**
 
 ```typescript
 'use server'
@@ -36,22 +36,22 @@ import { unauthorized } from '@/lib/errors'
 export async function deleteUser(userId: string) {
   // Always check auth inside the action
   const session = await verifySession()
-  
+
   if (!session) {
     throw unauthorized('Must be logged in')
   }
-  
+
   // Check authorization too
   if (session.user.role !== 'admin' && session.user.id !== userId) {
     throw unauthorized('Cannot delete other users')
   }
-  
+
   await db.user.delete({ where: { id: userId } })
   return { success: true }
 }
 ```
 
-**With input validation:**
+**入力バリデーションを伴う例：**
 
 ```typescript
 'use server'
@@ -68,18 +68,18 @@ const updateProfileSchema = z.object({
 export async function updateProfile(data: unknown) {
   // Validate input first
   const validated = updateProfileSchema.parse(data)
-  
+
   // Then authenticate
   const session = await verifySession()
   if (!session) {
     throw new Error('Unauthorized')
   }
-  
+
   // Then authorize
   if (session.user.id !== validated.userId) {
     throw new Error('Can only update own profile')
   }
-  
+
   // Finally perform the mutation
   await db.user.update({
     where: { id: validated.userId },
@@ -88,9 +88,9 @@ export async function updateProfile(data: unknown) {
       email: validated.email
     }
   })
-  
+
   return { success: true }
 }
 ```
 
-Reference: [https://nextjs.org/docs/app/guides/authentication](https://nextjs.org/docs/app/guides/authentication)
+参考：[https://nextjs.org/docs/app/guides/authentication](https://nextjs.org/docs/app/guides/authentication)

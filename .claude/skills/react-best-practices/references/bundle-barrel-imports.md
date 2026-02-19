@@ -1,19 +1,19 @@
 ---
-title: Avoid Barrel File Imports
+title: バレルファイルのインポートを避ける
 impact: CRITICAL
 impactDescription: 200-800ms import cost, slow builds
 tags: bundle, imports, tree-shaking, barrel-files, performance
 ---
 
-## Avoid Barrel File Imports
+## バレルファイルのインポートを避ける
 
-Import directly from source files instead of barrel files to avoid loading thousands of unused modules. **Barrel files** are entry points that re-export multiple modules (e.g., `index.js` that does `export * from './module'`).
+未使用モジュールを大量に読み込まないよう、バレルファイルではなくソースファイルから直接インポートしてください。**バレルファイル**とは、複数のモジュールを再エクスポートするエントリーポイントのことです（例：`export * from './module'`を行う`index.js`）。
 
-Popular icon and component libraries can have **up to 10,000 re-exports** in their entry file. For many React packages, **it takes 200-800ms just to import them**, affecting both development speed and production cold starts.
+人気のアイコンやコンポーネントライブラリのエントリーファイルには**最大1万件の再エクスポート**が含まれる場合があります。多くのReactパッケージでは、**インポートするだけで200〜800msかかり**、開発速度と本番環境のコールドスタートの両方に影響します。
 
-**Why tree-shaking doesn't help:** When a library is marked as external (not bundled), the bundler can't optimize it. If you bundle it to enable tree-shaking, builds become substantially slower analyzing the entire module graph.
+**なぜツリーシェイキングが効かないか：** ライブラリがexternalとしてマークされている（バンドルされていない）場合、バンドラーは最適化できません。ツリーシェイキングのためにバンドルすると、モジュールグラフ全体の解析でビルドが大幅に遅くなります。
 
-**Incorrect (imports entire library):**
+**誤り（ライブラリ全体をインポートする）：**
 
 ```tsx
 import { Check, X, Menu } from 'lucide-react'
@@ -24,7 +24,7 @@ import { Button, TextField } from '@mui/material'
 // Loads 2,225 modules, takes ~4.2s extra in dev
 ```
 
-**Correct (imports only what you need):**
+**正しい（必要なものだけインポートする）：**
 
 ```tsx
 import Check from 'lucide-react/dist/esm/icons/check'
@@ -37,7 +37,7 @@ import TextField from '@mui/material/TextField'
 // Loads only what you use
 ```
 
-**Alternative (Next.js 13.5+):**
+**代替案（Next.js 13.5+）：**
 
 ```js
 // next.config.js - use optimizePackageImports
@@ -52,8 +52,8 @@ import { Check, X, Menu } from 'lucide-react'
 // Automatically transformed to direct imports at build time
 ```
 
-Direct imports provide 15-70% faster dev boot, 28% faster builds, 40% faster cold starts, and significantly faster HMR.
+直接インポートにより、dev起動が15〜70%高速化、ビルドが28%高速化、コールドスタートが40%高速化、HMRも大幅に改善されます。
 
-Libraries commonly affected: `lucide-react`, `@mui/material`, `@mui/icons-material`, `@tabler/icons-react`, `react-icons`, `@headlessui/react`, `@radix-ui/react-*`, `lodash`, `ramda`, `date-fns`, `rxjs`, `react-use`.
+よく影響を受けるライブラリ：`lucide-react`、`@mui/material`、`@mui/icons-material`、`@tabler/icons-react`、`react-icons`、`@headlessui/react`、`@radix-ui/react-*`、`lodash`、`ramda`、`date-fns`、`rxjs`、`react-use`。
 
-Reference: [How we optimized package imports in Next.js](https://vercel.com/blog/how-we-optimized-package-imports-in-next-js)
+参考：[Next.jsにおけるパッケージインポートの最適化方法](https://vercel.com/blog/how-we-optimized-package-imports-in-next-js)

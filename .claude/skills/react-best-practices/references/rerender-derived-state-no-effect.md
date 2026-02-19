@@ -1,15 +1,15 @@
 ---
-title: Calculate Derived State During Rendering
+title: レンダリング中に派生状態を計算する
 impact: MEDIUM
 impactDescription: avoids redundant renders and state drift
 tags: rerender, derived-state, useEffect, state
 ---
 
-## Calculate Derived State During Rendering
+## レンダリング中に派生状態を計算する
 
-If a value can be computed from current props/state, do not store it in state or update it in an effect. Derive it during render to avoid extra renders and state drift. Do not set state in effects solely in response to prop changes; prefer derived values or keyed resets instead.
+現在のprops/stateから計算できる値は、stateに格納したりエフェクトで更新したりしないでください。レンダリング中に派生させることで、余分なレンダリングとstateのズレを防ぎます。propsの変更のみに反応してstateをエフェクトで設定しないでください。代わりに派生値またはkeyedリセットを使用してください。
 
-**Incorrect (redundant state and effect):**
+**誤り（冗長なstateとエフェクト）：**
 
 ```tsx
 function Form() {
@@ -25,7 +25,7 @@ function Form() {
 }
 ```
 
-**Correct (derive during render):**
+**正しい（レンダリング中に派生させる）：**
 
 ```tsx
 function Form() {
@@ -37,4 +37,4 @@ function Form() {
 }
 ```
 
-References: [You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect)
+参考：[You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect)

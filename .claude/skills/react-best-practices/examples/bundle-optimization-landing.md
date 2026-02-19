@@ -1,8 +1,8 @@
-# Example: Landing Page Bundle Optimization
+# 例：ランディングページのバンドル最適化
 
-A landing page applying bundle size and loading optimization rules together.
+バンドルサイズと読み込み最適化のルールを組み合わせたランディングページの例。
 
-## Before (4 issues)
+## Before（4つの問題）
 
 ```tsx
 // app/page.tsx
@@ -28,7 +28,7 @@ export default function LandingPage() {
 }
 ```
 
-## After (all 4 issues fixed)
+## After（4つの問題すべてを修正）
 
 ```tsx
 // app/page.tsx
@@ -83,12 +83,12 @@ function DeferredAnalytics() {
 }
 ```
 
-## Applied Rules
+## 適用されたルール
 
-| Rule | Impact | What Changed |
+| ルール | 影響 | 変更内容 |
 |------|--------|-------------|
-| `bundle-barrel-imports` | CRITICAL | Barrel re-export → direct file imports |
-| `bundle-dynamic-imports` | CRITICAL | Static imports → next/dynamic for FAQ, Footer |
-| `bundle-conditional` | HIGH | Confetti always bundled → loaded only when triggered |
-| `bundle-defer-third-party` | MEDIUM | Analytics loaded immediately → deferred after hydration |
-| `bundle-preload` | MEDIUM | No preloading → preload on hover interaction |
+| `bundle-barrel-imports` | CRITICAL | バレル再エクスポート → 直接ファイルインポート |
+| `bundle-dynamic-imports` | CRITICAL | 静的インポート → FAQ・Footerをnext/dynamicに変更 |
+| `bundle-conditional` | HIGH | Confettiが常にバンドルされる → トリガー時のみ読み込む |
+| `bundle-defer-third-party` | MEDIUM | Analyticsを即時読み込み → ハイドレーション後に遅延読み込み |
+| `bundle-preload` | MEDIUM | プリロードなし → ホバー操作時にプリロード |
