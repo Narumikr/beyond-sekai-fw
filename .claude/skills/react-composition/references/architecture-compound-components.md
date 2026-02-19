@@ -1,17 +1,15 @@
 ---
-title: Use Compound Components
+title: Compound Componentsを使う
 impact: HIGH
-impactDescription: enables flexible composition without prop drilling
+impactDescription: プロップドリリングなしで柔軟なコンポジションを実現する
 tags: composition, compound-components, architecture
 ---
 
-## Use Compound Components
+## Compound Componentsを使う
 
-Structure complex components as compound components with a shared context. Each
-subcomponent accesses shared state via context, not props. Consumers compose the
-pieces they need.
+複雑なコンポーネントを共有コンテキストを持つCompound componentsとして構造化する。各サブコンポーネントはpropsではなくコンテキストを通して共有stateにアクセスする。コンシューマーは必要なピースをコンポーズする。
 
-**Incorrect (monolithic component with render props):**
+**誤り（Render propsを持つモノリシックコンポーネント）：**
 
 ```tsx
 function Composer({
@@ -41,7 +39,7 @@ function Composer({
 }
 ```
 
-**Correct (compound components with shared context):**
+**正しい（共有コンテキストを持つCompound components）：**
 
 ```tsx
 const ComposerContext = createContext<ComposerContextValue | null>(null)
@@ -94,7 +92,7 @@ const Composer = {
 }
 ```
 
-**Usage:**
+**使用例：**
 
 ```tsx
 <Composer.Provider state={state} actions={actions} meta={meta}>
@@ -109,4 +107,4 @@ const Composer = {
 </Composer.Provider>
 ```
 
-Consumers explicitly compose exactly what they need. No hidden conditionals. And the state, actions and meta are dependency-injected by a parent provider, allowing multiple usages of the same component structure.
+コンシューマーは必要なものだけを明示的にコンポーズする。隠れた条件分岐なし。stateとactionsとmetaは親プロバイダーによって依存性注入されるため、同じコンポーネント構造を複数の場所で使用できる。

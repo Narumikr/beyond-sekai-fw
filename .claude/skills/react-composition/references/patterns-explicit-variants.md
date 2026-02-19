@@ -1,17 +1,15 @@
 ---
-title: Create Explicit Component Variants
+title: 明示的なコンポーネントバリアントを作成する
 impact: MEDIUM
-impactDescription: self-documenting code, no hidden conditionals
+impactDescription: 自己文書化コード、隠れた条件分岐なし
 tags: composition, variants, architecture
 ---
 
-## Create Explicit Component Variants
+## 明示的なコンポーネントバリアントを作成する
 
-Instead of one component with many boolean props, create explicit variant
-components. Each variant composes the pieces it needs. The code documents
-itself.
+多数のブールpropを持つ1つのコンポーネントの代わりに、明示的なバリアントコンポーネントを作成する。各バリアントは必要なピースをコンポーズする。コードが自己文書化される。
 
-**Incorrect (one component, many modes):**
+**誤り（1つのコンポーネント、多数のモード）：**
 
 ```tsx
 // What does this component actually render?
@@ -24,7 +22,7 @@ itself.
 />
 ```
 
-**Correct (explicit variants):**
+**正しい（明示的なバリアント）：**
 
 ```tsx
 // Immediately clear what this renders
@@ -37,10 +35,9 @@ itself.
 <ForwardMessageComposer messageId="123" />
 ```
 
-Each implementation is unique, explicit and self-contained. Yet they can each
-use shared parts.
+各実装はユニークで明示的かつ自己完結している。それでも共有パーツを使える。
 
-**Implementation:**
+**実装：**
 
 ```tsx
 function ThreadComposer({ channelId }: { channelId: string }) {
@@ -91,10 +88,10 @@ function ForwardMessageComposer({ messageId }: { messageId: string }) {
 }
 ```
 
-Each variant is explicit about:
+各バリアントは以下を明示している：
 
-- What provider/state it uses
-- What UI elements it includes
-- What actions are available
+- 使用するプロバイダー/state
+- 含まれるUI要素
+- 利用可能なアクション
 
-No boolean prop combinations to reason about. No impossible states.
+推論すべきブールpropの組み合わせなし。不可能な状態なし。

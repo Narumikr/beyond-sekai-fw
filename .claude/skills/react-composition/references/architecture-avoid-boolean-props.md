@@ -1,17 +1,15 @@
 ---
-title: Avoid Boolean Prop Proliferation
+title: ブールpropの増殖を避ける
 impact: CRITICAL
-impactDescription: prevents unmaintainable component variants
+impactDescription: メンテナブルでないコンポーネントバリアントを防ぐ
 tags: composition, props, architecture
 ---
 
-## Avoid Boolean Prop Proliferation
+## ブールpropの増殖を避ける
 
-Don't add boolean props like `isThread`, `isEditing`, `isDMThread` to customize
-component behavior. Each boolean doubles possible states and creates
-unmaintainable conditional logic. Use composition instead.
+コンポーネントの振る舞いをカスタマイズするために`isThread`、`isEditing`、`isDMThread`のようなブールpropを追加しない。ブールpropは1つ追加するたびに可能な状態数が2倍になり、メンテナブルでない条件ロジックを生み出す。代わりにコンポジションを使う。
 
-**Incorrect (boolean props create exponential complexity):**
+**誤り（ブールpropが指数的な複雑さを生み出す）：**
 
 ```tsx
 function Composer({
@@ -45,7 +43,7 @@ function Composer({
 }
 ```
 
-**Correct (composition eliminates conditionals):**
+**正しい（コンポジションが条件分岐を排除する）：**
 
 ```tsx
 // Channel composer
@@ -96,5 +94,4 @@ function EditComposer() {
 }
 ```
 
-Each variant is explicit about what it renders. We can share internals without
-sharing a single monolithic parent.
+各バリアントは自分がレンダリングするものを明示している。単一のモノリシックな親を共有せずに内部を共有できる。

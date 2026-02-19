@@ -1,17 +1,17 @@
 ---
-title: Composition Anti-Patterns
+title: コンポジションのアンチパターン
 impact: HIGH
-impactDescription: common mistakes that undermine component extensibility and reusability
+impactDescription: コンポーネントの拡張性と再利用性を損なう一般的な間違い
 tags: anti-patterns, composition, architecture
 ---
 
-## Composition Anti-Patterns
+## コンポジションのアンチパターン
 
-Common patterns that seem convenient but undermine extensibility and reusability.
+便利に見えるが、拡張性と再利用性を損なう一般的なパターン。
 
-### 1. Boolean Prop Accumulation
+### 1. ブールpropの蓄積
 
-**Problem**: Adding a boolean prop for every new feature or variant.
+**問題**：新しい機能やバリアントのたびにブールpropを追加する。
 
 ```tsx
 // Each new feature adds another boolean
@@ -25,7 +25,7 @@ Common patterns that seem convenient but undermine extensibility and reusability
 />
 ```
 
-**Solution**: Use compound components or explicit variants.
+**解決策**：Compound componentsまたは明示的なバリアントを使う。
 
 ```tsx
 <FullScreenModal>
@@ -37,9 +37,9 @@ Common patterns that seem convenient but undermine extensibility and reusability
 </FullScreenModal>
 ```
 
-### 2. Prop Drilling Through Multiple Layers
+### 2. 複数レイヤーを経由したプロップドリリング
 
-**Problem**: Passing props through components that don't use them.
+**問題**：使用しないコンポーネントを通してpropsを渡す。
 
 ```tsx
 function App() {
@@ -53,7 +53,7 @@ function App() {
 }
 ```
 
-**Solution**: Use context providers at the appropriate level.
+**解決策**：適切なレベルでコンテキストプロバイダーを使う。
 
 ```tsx
 function App() {
@@ -73,9 +73,9 @@ function App() {
 }
 ```
 
-### 3. useEffect for State Syncing
+### 3. stateの同期にuseEffectを使う
 
-**Problem**: Using useEffect to sync child state to parent.
+**問題**：子のstateを親に同期するためにuseEffectを使う。
 
 ```tsx
 function Parent() {
@@ -97,7 +97,7 @@ function ChildInput({ onValueChange }) {
 }
 ```
 
-**Solution**: Lift state to a provider so both components read from the same source.
+**解決策**：両方のコンポーネントが同じソースから読み取れるよう、stateをプロバイダーにリフトアップする。
 
 ```tsx
 function InputProvider({ children }) {
@@ -119,10 +119,9 @@ function Parent() {
 }
 ```
 
-### 4. God Components
+### 4. ゴッドコンポーネント
 
-**Problem**: One component that does everything, with hundreds of lines and
-dozens of conditional branches.
+**問題**：何でもこなす1つのコンポーネント。数百行と数十の条件分岐。
 
 ```tsx
 function Dashboard({ user, settings, data, filters, ... }) {
@@ -130,12 +129,11 @@ function Dashboard({ user, settings, data, filters, ... }) {
 }
 ```
 
-**Solution**: Break into compound components, each with a focused responsibility.
+**解決策**：各コンポーネントが明確な責務を持つCompound componentsに分割する。
 
-### 5. Tight Coupling to State Libraries
+### 5. stateライブラリへの密結合
 
-**Problem**: UI components directly import and depend on specific state
-management hooks (Zustand, Redux, etc.).
+**問題**：UIコンポーネントが特定のstate管理フック（Zustand、Reduxなど）を直接インポートして依存する。
 
 ```tsx
 function TodoList() {
@@ -145,12 +143,11 @@ function TodoList() {
 }
 ```
 
-**Solution**: Define a context interface and inject state through providers.
-The UI only knows about `{ state, actions, meta }`.
+**解決策**：コンテキストインターフェースを定義し、プロバイダーを通してstateをインジェクトする。UIは`{ state, actions, meta }`だけを知っている。
 
-### 6. Excessive Nesting of Render Props
+### 6. Render Propsの過度なネスト
 
-**Problem**: Multiple render props create "callback hell" in JSX.
+**問題**：複数のRender propsがJSXで「コールバック地獄」を生み出す。
 
 ```tsx
 <DataProvider render={(data) => (
@@ -162,7 +159,7 @@ The UI only knows about `{ state, actions, meta }`.
 )} />
 ```
 
-**Solution**: Use compound components with context, or compose with children.
+**解決策**：コンテキストを使ったCompound components、またはchildrenでコンポーズする。
 
 ```tsx
 <DataProvider>

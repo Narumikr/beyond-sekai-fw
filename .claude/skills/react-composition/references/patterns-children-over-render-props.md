@@ -1,17 +1,15 @@
 ---
-title: Prefer Composing Children Over Render Props
+title: Render PropsよりChildrenのコンポジションを優先する
 impact: MEDIUM
-impactDescription: cleaner composition, better readability
+impactDescription: よりクリーンなコンポジション、優れた可読性
 tags: composition, children, render-props
 ---
 
-## Prefer Children Over Render Props
+## Render PropsよりChildrenを優先する
 
-Use `children` for composition instead of `renderX` props. Children are more
-readable, compose naturally, and don't require understanding callback
-signatures.
+`renderX`プロップの代わりにコンポジションに`children`を使う。Childrenはより読みやすく、自然にコンポーズでき、コールバックのシグネチャを理解する必要がない。
 
-**Incorrect (render props):**
+**誤り（Render props）：**
 
 ```tsx
 function Composer({
@@ -48,7 +46,7 @@ return (
 )
 ```
 
-**Correct (compound components with children):**
+**正しい（childrenを使ったCompound components）：**
 
 ```tsx
 function ComposerFrame({ children }: { children: React.ReactNode }) {
@@ -73,7 +71,7 @@ return (
 )
 ```
 
-**When render props are appropriate:**
+**Render propsが適切な場合：**
 
 ```tsx
 // Render props work well when you need to pass data back
@@ -83,5 +81,4 @@ return (
 />
 ```
 
-Use render props when the parent needs to provide data or state to the child.
-Use children when composing static structure.
+親が子にデータやstateを渡す必要がある場合はRender propsを使う。静的な構造をコンポーズする場合はchildrenを使う。

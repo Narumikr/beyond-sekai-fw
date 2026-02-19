@@ -1,17 +1,15 @@
 ---
-title: Lift State into Provider Components
+title: stateをプロバイダーコンポーネントにリフトアップする
 impact: HIGH
-impactDescription: enables state sharing outside component boundaries
+impactDescription: コンポーネントのバウンダリーを超えたstateの共有を実現する
 tags: composition, state, context, providers
 ---
 
-## Lift State into Provider Components
+## stateをプロバイダーコンポーネントにリフトアップする
 
-Move state management into dedicated provider components. This allows sibling
-components outside the main UI to access and modify state without prop drilling
-or awkward refs.
+state管理を専用のプロバイダーコンポーネントに移動する。これにより、メインUIの外側にある兄弟コンポーネントもプロップドリリングや扱いにくいrefsなしにstateにアクセスして変更できるようになる。
 
-**Incorrect (state trapped inside component):**
+**誤り（コンポーネント内にトラップされたstate）：**
 
 ```tsx
 function ForwardMessageComposer() {
@@ -41,7 +39,7 @@ function ForwardMessageDialog() {
 }
 ```
 
-**Incorrect (useEffect to sync state up):**
+**誤り（stateを上に同期するためのuseEffect）：**
 
 ```tsx
 function ForwardMessageDialog() {
@@ -62,7 +60,7 @@ function ForwardMessageComposer({ onInputChange }) {
 }
 ```
 
-**Incorrect (reading state from ref on submit):**
+**誤り（submitでrefからstateを読み取る）：**
 
 ```tsx
 function ForwardMessageDialog() {
@@ -76,7 +74,7 @@ function ForwardMessageDialog() {
 }
 ```
 
-**Correct (state lifted to provider):**
+**正しい（プロバイダーにリフトアップされたstate）：**
 
 ```tsx
 function ForwardMessageProvider({ children }: { children: React.ReactNode }) {
@@ -116,10 +114,6 @@ function ForwardButton() {
 }
 ```
 
-The ForwardButton lives outside the Composer.Frame but still has access to the
-submit action because it's within the provider. Even though it's a one-off
-component, it can still access the composer's state and actions from outside the
-UI itself.
+ForwardButtonはComposer.Frameの外側に存在するが、プロバイダーの内側にあるためsubmitアクションにアクセスできる。一度限りのコンポーネントであっても、UI外部からComposerのstateとactionsにアクセスできる。
 
-**Key insight:** Components that need shared state don't have to be visually
-nested inside each other—they just need to be within the same provider.
+**重要な洞察：** 共有stateを必要とするコンポーネントは視覚的に互いの内側にある必要はなく、同じプロバイダーの内側にさえあればよい。

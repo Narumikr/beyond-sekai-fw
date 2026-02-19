@@ -1,21 +1,17 @@
 ---
-title: Define Generic Context Interfaces for Dependency Injection
+title: 依存性注入のためのジェネリックコンテキストインターフェースを定義する
 impact: HIGH
-impactDescription: enables dependency-injectable state across use-cases
+impactDescription: ユースケースをまたいで依存性注入可能なstateを実現する
 tags: composition, context, state, typescript, dependency-injection
 ---
 
-## Define Generic Context Interfaces for Dependency Injection
+## 依存性注入のためのジェネリックコンテキストインターフェースを定義する
 
-Define a **generic interface** for your component context with three parts:
-`state`, `actions`, and `meta`. This interface is a contract that any provider
-can implement—enabling the same UI components to work with completely different
-state implementations.
+コンポーネントのコンテキストに対して`state`、`actions`、`meta`の3つの部分を持つ**ジェネリックインターフェース**を定義する。このインターフェースは任意のプロバイダーが実装できる契約であり、同じUIコンポーネントがまったく異なるstate実装で動作できるようになる。
 
-**Core principle:** Lift state, compose internals, make state
-dependency-injectable.
+**核心原則：** stateをリフトアップし、内部をコンポーズし、stateを依存性注入可能にする。
 
-**Incorrect (UI coupled to specific state implementation):**
+**誤り（UIが特定のstate実装に密結合）：**
 
 ```tsx
 function ComposerInput() {
@@ -25,7 +21,7 @@ function ComposerInput() {
 }
 ```
 
-**Correct (generic interface enables dependency injection):**
+**正しい（ジェネリックインターフェースで依存性注入を実現）：**
 
 ```tsx
 // Define a GENERIC interface that any provider can implement
@@ -53,7 +49,7 @@ interface ComposerContextValue {
 const ComposerContext = createContext<ComposerContextValue | null>(null)
 ```
 
-**UI components consume the interface, not the implementation:**
+**UIコンポーネントは実装ではなくインターフェースを利用する：**
 
 ```tsx
 function ComposerInput() {
@@ -74,7 +70,7 @@ function ComposerInput() {
 }
 ```
 
-**Different providers implement the same interface:**
+**異なるプロバイダーが同じインターフェースを実装する：**
 
 ```tsx
 // Provider A: Local state for ephemeral forms
@@ -115,7 +111,7 @@ function ChannelProvider({ channelId, children }: Props) {
 }
 ```
 
-**The same composed UI works with both:**
+**同じコンポーズされたUIが両方で動作する：**
 
 ```tsx
 // Works with ForwardMessageProvider (local state)
@@ -135,11 +131,9 @@ function ChannelProvider({ channelId, children }: Props) {
 </ChannelProvider>
 ```
 
-**Custom UI outside the component can access state and actions:**
+**コンポーネント外部のカスタムUIもstateとactionsにアクセスできる：**
 
-The provider boundary is what matters—not the visual nesting. Components that
-need shared state don't have to be inside the `Composer.Frame`. They just need
-to be within the provider.
+プロバイダーのバウンダリーが重要であり、視覚的なネストは関係ない。共有stateを必要とするコンポーネントは`Composer.Frame`の内部にある必要はなく、プロバイダーの内部にさえあればよい。
 
 ```tsx
 function ForwardMessageDialog() {
@@ -183,9 +177,6 @@ function MessagePreview() {
 }
 ```
 
-The `ForwardButton` and `MessagePreview` are not visually inside the composer
-box, but they can still access its state and actions. This is the power of
-lifting state into providers.
+`ForwardButton`と`MessagePreview`は視覚的にComposerボックスの内側にないが、それでもstateとactionsにアクセスできる。これがstateをプロバイダーにリフトアップする力だ。
 
-The UI is reusable bits you compose together. The state is dependency-injected
-by the provider. Swap the provider, keep the UI.
+UIは組み合わせる再利用可能なパーツ。stateはプロバイダーによって依存性注入される。プロバイダーを交換してもUIはそのまま使える。

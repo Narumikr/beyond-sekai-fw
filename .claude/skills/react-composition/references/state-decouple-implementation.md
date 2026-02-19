@@ -1,17 +1,15 @@
 ---
-title: Decouple State Management from UI
+title: UIからstate管理を分離する
 impact: MEDIUM
-impactDescription: enables swapping state implementations without changing UI
+impactDescription: UIを変更せずにstate実装の交換を可能にする
 tags: composition, state, architecture
 ---
 
-## Decouple State Management from UI
+## UIからstate管理を分離する
 
-The provider component should be the only place that knows how state is managed.
-UI components consume the context interface—they don't know if state comes from
-useState, Zustand, or a server sync.
+プロバイダーコンポーネントだけがstateの管理方法を知っている唯一の場所であるべきだ。UIコンポーネントはコンテキストインターフェースを利用し、stateがuseStateから来るのか、Zustandから来るのか、サーバー同期から来るのかを知らない。
 
-**Incorrect (UI coupled to state implementation):**
+**誤り（UIがstate実装に密結合）：**
 
 ```tsx
 function ChannelComposer({ channelId }: { channelId: string }) {
@@ -31,7 +29,7 @@ function ChannelComposer({ channelId }: { channelId: string }) {
 }
 ```
 
-**Correct (state management isolated in provider):**
+**正しい（state管理をプロバイダーに分離）：**
 
 ```tsx
 // Provider handles all state management details
@@ -79,7 +77,7 @@ function Channel({ channelId }: { channelId: string }) {
 }
 ```
 
-**Different providers, same UI:**
+**異なるプロバイダー、同じUI：**
 
 ```tsx
 // Local state for ephemeral forms
@@ -109,5 +107,4 @@ function ChannelProvider({ channelId, children }) {
 }
 ```
 
-The same `Composer.Input` component works with both providers because it only
-depends on the context interface, not the implementation.
+同じ`Composer.Input`コンポーネントが両方のプロバイダーで動作する。実装ではなくコンテキストインターフェースのみに依存しているからだ。

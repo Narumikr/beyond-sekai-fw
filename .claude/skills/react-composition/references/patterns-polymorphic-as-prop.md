@@ -1,17 +1,15 @@
 ---
-title: Polymorphic Components with the as Prop
+title: asPropを使ったポリモーフィックコンポーネント
 impact: MEDIUM
-impactDescription: enables a single component to render as different HTML elements or other components
+impactDescription: 単一コンポーネントを異なるHTML要素や他のコンポーネントとしてレンダリングできるようにする
 tags: composition, polymorphic, as-prop, design-system, reusability
 ---
 
-## Polymorphic Components with the `as` Prop
+## `as`プロップを使ったポリモーフィックコンポーネント
 
-Allow a component to change its rendered element via an `as` prop. This avoids
-duplicating styling and behavior logic across `ButtonLink`, `ButtonDiv`, etc.
-Widely used in Chakra UI, styled-components, and other design systems.
+`as`プロップでレンダリングする要素を変更できるコンポーネントを作る。これにより`ButtonLink`、`ButtonDiv`などでスタイリングと振る舞いのロジックを重複させることを避ける。Chakra UI、styled-components、その他のデザインシステムで広く使われている。
 
-**Incorrect (duplicate components for different elements):**
+**誤り（異なる要素に対してコンポーネントを重複させる）：**
 
 ```tsx
 function Button({ children, ...props }: ButtonProps) {
@@ -27,10 +25,9 @@ function ButtonDiv({ children, ...props }: ButtonDivProps) {
 }
 ```
 
-Three components with identical styling. Every style change must be applied
-three times.
+スタイリングが同一の3つのコンポーネント。スタイルを変更するたびに3箇所に適用しなければならない。
 
-**Correct (polymorphic component with `as` prop):**
+**正しい（`as`プロップを持つポリモーフィックコンポーネント）：**
 
 ```tsx
 type PolymorphicProps<E extends React.ElementType> = {
@@ -52,7 +49,7 @@ function Button<E extends React.ElementType = 'button'>({
 }
 ```
 
-**Usage:**
+**使用例：**
 
 ```tsx
 // Renders <button>
@@ -65,17 +62,15 @@ function Button<E extends React.ElementType = 'button'>({
 <Button as={Link} href="/dashboard">Dashboard</Button>
 ```
 
-TypeScript infers the correct props for the chosen element. `href` is available
-when `as="a"` but not when `as="button"`.
+TypeScriptは選択した要素に対して正しいpropsを推論する。`as="a"`の場合は`href`が使用可能だが、`as="button"`の場合は使用できない。
 
-**When to use:**
+**使うべき場合：**
 
-- Design system primitives (Box, Text, Heading, Button)
-- Components that may render as different semantic elements
-- Wrapping third-party link components (Next.js Link, React Router Link)
+- デザインシステムのプリミティブ（Box、Text、Heading、Button）
+- 異なるセマンティック要素としてレンダリングされる可能性のあるコンポーネント
+- サードパーティのリンクコンポーネントのラップ（Next.js Link、React Router Link）
 
-**When NOT to use:**
+**使うべきでない場合：**
 
-- When variants have significantly different behavior (use explicit variants
-  instead — see `patterns-explicit-variants.md`)
-- When the component only ever renders as one element type
+- バリアントの振る舞いが大幅に異なる場合（代わりに明示的なバリアントを使う -- `patterns-explicit-variants.md`を参照）
+- コンポーネントが常に1種類の要素としてのみレンダリングされる場合

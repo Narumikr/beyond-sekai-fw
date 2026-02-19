@@ -1,18 +1,15 @@
 ---
-title: Slot Pattern for Flexible Content Injection
+title: 柔軟なコンテンツインジェクションのためのSlotパターン
 impact: MEDIUM
-impactDescription: enables type-safe content injection without render props or boolean flags
+impactDescription: Render propsやブールフラグなしにタイプセーフなコンテンツインジェクションを実現する
 tags: composition, slot, design-system, reusability, radix
 ---
 
-## Slot Pattern for Flexible Content Injection
+## 柔軟なコンテンツインジェクションのためのSlotパターン
 
-The Slot pattern lets a component merge its props onto whatever child is passed
-to it, instead of rendering a fixed wrapper element. The consumer controls the
-rendered element while the component provides behavior and styling. Popularized
-by Radix UI's `Slot` / `asChild` pattern.
+Slotパターンを使うと、コンポーネントが固定のラッパー要素をレンダリングする代わりに、渡された子要素にpropsをマージできる。コンシューマーがレンダリングする要素を制御し、コンポーネントは振る舞いとスタイリングを提供する。Radix UIの`Slot` / `asChild`パターンで広まった。
 
-**Incorrect (wrapper div forces extra DOM nesting):**
+**誤り（ラッパーdivが余分なDOMネストを強制する）：**
 
 ```tsx
 function Tooltip({ children, content }: TooltipProps) {
@@ -31,7 +28,7 @@ function Tooltip({ children, content }: TooltipProps) {
 // Renders: <div class="tooltip-trigger"><button>⚙️</button></div>
 ```
 
-**Correct (Slot merges props onto the child):**
+**正しい（Slotが子要素にpropsをマージする）：**
 
 ```tsx
 import { Slot } from '@radix-ui/react-slot'
@@ -46,7 +43,7 @@ function Button({ asChild, ...props }: ButtonProps) {
 }
 ```
 
-**Usage:**
+**使用例：**
 
 ```tsx
 // Renders a <button>
@@ -64,10 +61,9 @@ function Button({ asChild, ...props }: ButtonProps) {
 </Button>
 ```
 
-No extra wrapper element. The child receives the component's className, event
-handlers, and other props via merging.
+余分なラッパー要素なし。子要素はマージによってコンポーネントのclassName、イベントハンドラー、その他のpropsを受け取る。
 
-**Implementing a minimal Slot without Radix:**
+**Radixを使わないミニマルなSlotの実装：**
 
 ```tsx
 import { cloneElement, isValidElement, Children } from 'react'
@@ -87,14 +83,13 @@ function Slot({
 }
 ```
 
-**When to use:**
+**使うべき場合：**
 
-- Design system components that should not enforce a DOM element
-- Trigger components (tooltip triggers, popover triggers, dialog triggers)
-- When avoiding extra wrapper elements matters for styling or accessibility
+- DOM要素を強制すべきでないデザインシステムコンポーネント
+- トリガーコンポーネント（ツールチップトリガー、ポップオーバートリガー、ダイアログトリガー）
+- スタイリングやアクセシビリティにおいて余分なラッパー要素を避けることが重要な場合
 
-**When NOT to use:**
+**使うべきでない場合：**
 
-- When the component must control its own element for accessibility
-  (e.g., dialog panels that require specific ARIA roles)
-- When multiple children need to be wrapped — Slot works with a single child
+- アクセシビリティのために要素を制御する必要があるコンポーネント（特定のARIAロールが必要なダイアログパネルなど）
+- 複数の子要素をラップする必要がある場合 -- Slotは単一の子要素で動作する

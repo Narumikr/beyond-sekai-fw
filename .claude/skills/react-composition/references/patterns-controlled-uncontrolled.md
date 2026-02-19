@@ -1,19 +1,17 @@
 ---
-title: Controlled and Uncontrolled Component Pattern
+title: ControlledとUncontrolledコンポーネントパターン
 impact: MEDIUM
-impactDescription: enables components to work both as controlled and uncontrolled for maximum reusability
+impactDescription: 最大の再利用性のためにcontrolledとuncontrolledの両方で動作するコンポーネントを実現する
 tags: composition, controlled, uncontrolled, state, reusability
 ---
 
-## Controlled and Uncontrolled Component Pattern
+## ControlledとUncontrolledコンポーネントパターン
 
-Build components that work in both controlled mode (parent owns state) and
-uncontrolled mode (component owns state). This maximizes reusability — simple
-use-cases work out of the box, while complex use-cases can take full control.
+controlledモード（親がstateを所有）とuncontrolledモード（コンポーネントがstateを所有）の両方で動作するコンポーネントを構築する。これで再利用性が最大化される -- シンプルなユースケースはそのまま動作し、複雑なユースケースは完全な制御が可能。
 
-Used extensively in Radix UI, Headless UI, and React Aria.
+Radix UI、Headless UI、React Ariaで広く使われている。
 
-**Incorrect (controlled only — forces all consumers to manage state):**
+**誤り（controlledのみ -- すべてのコンシューマーにstate管理を強制）：**
 
 ```tsx
 function Accordion({
@@ -40,7 +38,7 @@ function FAQ() {
 }
 ```
 
-**Correct (supports both controlled and uncontrolled):**
+**正しい（controlledとuncontrolledの両方をサポート）：**
 
 ```tsx
 function useControllableState<T>({
@@ -74,7 +72,7 @@ function useControllableState<T>({
 }
 ```
 
-**Usage in a component:**
+**コンポーネントでの使用例：**
 
 ```tsx
 interface AccordionProps {
@@ -106,7 +104,7 @@ function Accordion({
 }
 ```
 
-**Consumer usage:**
+**コンシューマーの使用例：**
 
 ```tsx
 // Uncontrolled — works out of the box, no state management needed
@@ -131,24 +129,22 @@ function FilterableAccordion() {
 }
 ```
 
-**API convention:**
+**API規約：**
 
-| Mode         | Props                           |
-| ------------ | ------------------------------- |
-| Uncontrolled | `defaultValue`, callbacks       |
-| Controlled   | `value` + `onValueChange`       |
+| モード       | Props                          |
+| ------------ | ------------------------------ |
+| Uncontrolled | `defaultValue`、コールバック   |
+| Controlled   | `value` + `onValueChange`      |
 
-When `value` is provided, the component is controlled. When only `defaultValue`
-is provided (or neither), the component manages its own state.
+`value`が提供された場合、コンポーネントはcontrolledになる。`defaultValue`のみが提供された場合（またはどちらも提供されない場合）、コンポーネントは自分でstateを管理する。
 
-**When to use:**
+**使うべき場合：**
 
-- Reusable UI components that may be used in both simple and complex contexts
-- Design system components (Accordion, Tabs, Select, Dialog open state)
-- Any component where some consumers need state control and others don't
+- シンプルなコンテキストと複雑なコンテキストの両方で使われる可能性のある再利用可能なUIコンポーネント
+- デザインシステムコンポーネント（Accordion、Tabs、Select、Dialogの開閉状態）
+- 一部のコンシューマーはstate制御が必要で他は不要なコンポーネント
 
-**When NOT to use:**
+**使うべきでない場合：**
 
-- Application-specific components where the state ownership is always clear
-- Components that always require external state (e.g., form inputs bound to
-  form libraries)
+- stateの所有権が常に明確なアプリケーション固有のコンポーネント
+- 常に外部stateを必要とするコンポーネント（フォームライブラリにバインドされたフォーム入力など）

@@ -1,17 +1,17 @@
 ---
-title: Before/After Composition Examples
+title: コンポジションのBefore/After例
 tags: examples, composition, refactoring
 ---
 
-## Before/After Composition Examples
+## コンポジションのBefore/After例
 
-Practical examples of refactoring components from anti-patterns to composition patterns.
+アンチパターンからコンポジションパターンへリファクタリングする実践的な例。
 
 ---
 
-### Example 1: Monolithic Component to Compound Components
+### 例1：モノリシックコンポーネントからCompound Componentsへ
 
-**Before** -- A single component with boolean props and conditional rendering:
+**Before** -- ブールpropと条件レンダリングを持つ単一コンポーネント：
 
 ```tsx
 function NotificationCard({
@@ -43,7 +43,7 @@ function NotificationCard({
 }
 ```
 
-**After** -- Compound components with explicit composition:
+**After** -- 明示的なコンポジションを持つCompound components：
 
 ```tsx
 const NotificationContext = createContext<NotificationContextValue | null>(null)
@@ -103,7 +103,7 @@ const Notification = {
 }
 ```
 
-**Usage -- each variant composes exactly what it needs:**
+**使用例 -- 各バリアントが必要なものだけをコンポーズする：**
 
 ```tsx
 // Full notification with all features
@@ -139,9 +139,9 @@ function MinimalNotification({ notification }) {
 
 ---
 
-### Example 2: Prop Drilling to Provider-Based State
+### 例2：プロップドリリングからプロバイダーベースのstateへ
 
-**Before** -- Props passed through multiple levels:
+**Before** -- 複数レイヤーを通して渡されるprops：
 
 ```tsx
 function SearchPage({ query, results, filters, onSearch, onFilter, onSort }) {
@@ -156,7 +156,7 @@ function SearchPage({ query, results, filters, onSearch, onFilter, onSort }) {
 }
 ```
 
-**After** -- State lifted to provider:
+**After** -- プロバイダーにリフトアップされたstate：
 
 ```tsx
 interface SearchState {
@@ -192,7 +192,7 @@ function SearchProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-// Each component reads only what it needs from context
+// 各コンポーネントはコンテキストから必要なものだけを読み取る
 function SearchBar() {
   const { state, actions } = use(SearchContext)
   return <input value={state.query} onChange={(e) => actions.search(e.target.value)} />
@@ -203,7 +203,7 @@ function ResultsCount() {
   return <span>{state.results.length} results for "{state.query}"</span>
 }
 
-// Usage
+// 使用例
 function SearchPage() {
   return (
     <SearchProvider>
@@ -218,9 +218,9 @@ function SearchPage() {
 
 ---
 
-### Example 3: Render Props to Children Composition
+### 例3：Render PropsからChildrenコンポジションへ
 
-**Before** -- Render props create awkward nesting:
+**Before** -- Render propsは扱いにくいネストを生み出す：
 
 ```tsx
 <Card
@@ -240,7 +240,7 @@ function SearchPage() {
 />
 ```
 
-**After** -- Children composition is natural and flexible:
+**After** -- Childrenコンポジションは自然で柔軟：
 
 ```tsx
 <Card>
@@ -260,9 +260,9 @@ function SearchPage() {
 
 ---
 
-### Example 4: Swappable Providers (Dependency Injection)
+### 例4：スワップ可能なプロバイダー（依存性注入）
 
-**Same UI, different state sources:**
+**同じUI、異なるstateソース：**
 
 ```tsx
 // Provider A: REST API backend

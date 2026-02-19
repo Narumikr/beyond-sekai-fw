@@ -1,17 +1,17 @@
 ---
-title: Design System Composition Examples
+title: デザインシステムのコンポジション例
 tags: examples, design-system, polymorphic, slot, controlled-uncontrolled
 ---
 
-## Design System Composition Examples
+## デザインシステムのコンポジション例
 
-Practical examples of composition patterns applied to design system components.
+デザインシステムコンポーネントに適用したコンポジションパターンの実践的な例。
 
 ---
 
-### Example 1: Polymorphic Text Component
+### 例1：ポリモーフィックTextコンポーネント
 
-A single Text component that renders as any heading or paragraph element.
+任意の見出しや段落要素としてレンダリングできる単一のTextコンポーネント。
 
 ```tsx
 type TextProps<E extends React.ElementType = 'p'> = {
@@ -46,7 +46,7 @@ function Text<E extends React.ElementType = 'p'>({
 }
 ```
 
-**Usage:**
+**使用例：**
 
 ```tsx
 <Text>Default paragraph</Text>
@@ -55,14 +55,13 @@ function Text<E extends React.ElementType = 'p'>({
 <Text as="label" htmlFor="email" size="sm" weight="medium">Email</Text>
 ```
 
-TypeScript correctly infers `htmlFor` is available for `as="label"` but not
-for `as="h1"`.
+TypeScriptは`as="label"`の場合に`htmlFor`が使用可能で、`as="h1"`の場合には使用できないことを正しく推論する。
 
 ---
 
-### Example 2: Dialog with Slot Trigger
+### 例2：Slotトリガーを持つDialog
 
-A Dialog component where the trigger can be any element.
+トリガーが任意の要素になれるDialogコンポーネント。
 
 ```tsx
 import { Slot } from '@radix-ui/react-slot'
@@ -79,7 +78,7 @@ function DialogTrigger({ asChild, ...props }: DialogTriggerProps) {
 }
 ```
 
-**Usage:**
+**使用例：**
 
 ```tsx
 // Default — renders a <button>
@@ -105,14 +104,13 @@ function DialogTrigger({ asChild, ...props }: DialogTriggerProps) {
 </Dialog>
 ```
 
-No wrapper elements. The trigger behavior is merged onto whatever child is
-provided.
+ラッパー要素なし。トリガーの振る舞いは渡された子要素にマージされる。
 
 ---
 
-### Example 3: Controlled/Uncontrolled Tabs
+### 例3：Controlled/Uncontrolled Tabs
 
-Tabs that work out of the box but can also be controlled externally.
+そのまま動作するが、外部からも制御できるTabs。
 
 ```tsx
 interface TabsProps {
@@ -162,7 +160,7 @@ const TabsCompound = {
 }
 ```
 
-**Uncontrolled — simple use case:**
+**Uncontrolled -- シンプルなユースケース：**
 
 ```tsx
 <TabsCompound.Root defaultValue="tab1">
@@ -178,7 +176,7 @@ const TabsCompound = {
 </TabsCompound.Root>
 ```
 
-**Controlled — URL-synced tabs:**
+**Controlled -- URLと同期するTabs：**
 
 ```tsx
 function SettingsPage() {
@@ -204,15 +202,13 @@ function SettingsPage() {
 }
 ```
 
-Same component, but now the active tab is synced with the URL. No changes to
-the Tabs implementation needed.
+同じコンポーネントだが、アクティブなタブがURLと同期する。Tabsの実装変更は不要。
 
 ---
 
-### Example 4: Combining All Patterns — Compound + Slot + Controlled
+### 例4：全パターンの組み合わせ -- Compound + Slot + Controlled
 
-A complete Select component using compound components, slot pattern, and
-controlled/uncontrolled state.
+Compound components、Slotパターン、Controlled/Uncontrolled stateを組み合わせた完全なSelectコンポーネント。
 
 ```tsx
 interface SelectProps {
@@ -277,7 +273,7 @@ const SelectCompound = {
 }
 ```
 
-**Usage:**
+**使用例：**
 
 ```tsx
 // Uncontrolled with default trigger
