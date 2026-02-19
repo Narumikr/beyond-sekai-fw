@@ -1,15 +1,11 @@
 ---
-name: vercel-composition-patterns
+name: react-composition
 description:
   React composition patterns that scale. Use when refactoring components with
   boolean prop proliferation, building flexible component libraries, or
   designing reusable APIs. Triggers on tasks involving compound components,
   render props, context providers, or component architecture. Includes React 19
   API changes.
-license: MIT
-metadata:
-  author: vercel
-  version: '1.0.0'
 ---
 
 # React Composition Patterns
@@ -61,29 +57,52 @@ Reference these guidelines when:
   boolean modes
 - `patterns-children-over-render-props` - Use children for composition instead
   of renderX props
+- `patterns-polymorphic-as-prop` - Render as different elements via `as` prop
+  for polymorphic components
+- `patterns-slot-pattern` - Merge props onto child element via Slot/asChild
+  for zero-wrapper composition
+- `patterns-controlled-uncontrolled` - Support both controlled and uncontrolled
+  modes for maximum reusability
 
 ### 4. React 19 APIs (MEDIUM)
 
 > **⚠️ React 19+ only.** Skip this section if using React 18 or earlier.
 
-- `react19-no-forwardref` - Don't use `forwardRef`; use `use()` instead of `useContext()`
+- `react19-api-changes` - Don't use `forwardRef`; use `use()` instead of `useContext()`
 
 ## How to Use
 
-Read individual rule files for detailed explanations and code examples:
+Read individual reference files for detailed explanations and code examples:
 
 ```
-rules/architecture-avoid-boolean-props.md
-rules/state-context-interface.md
+references/architecture-avoid-boolean-props.md
+references/state-context-interface.md
 ```
 
-Each rule file contains:
+Each reference file contains:
 
 - Brief explanation of why it matters
 - Incorrect code example with explanation
 - Correct code example with explanation
 - Additional context and references
 
-## Full Compiled Document
+## Detailed References
 
-For the complete guide with all rules expanded: `AGENTS.md`
+- **Component Architecture**: `references/architecture-avoid-boolean-props.md`, `references/architecture-compound-components.md`
+- **State Management**: `references/state-decouple-implementation.md`, `references/state-context-interface.md`, `references/state-lift-state.md`
+- **Implementation Patterns**: `references/patterns-explicit-variants.md`, `references/patterns-children-over-render-props.md`, `references/patterns-polymorphic-as-prop.md`, `references/patterns-slot-pattern.md`, `references/patterns-controlled-uncontrolled.md`
+- **React 19**: `references/react19-api-changes.md`
+- **Anti-patterns**: `references/anti-patterns.md`
+
+## Examples
+
+- **Before/After comparisons**: `examples/before-after-examples.md`
+  - Monolithic component to compound components
+  - Boolean props to explicit variants
+  - Prop drilling to provider-based state
+  - Render props to children composition
+- **Design system patterns**: `examples/design-system-patterns.md`
+  - Polymorphic Text component
+  - Dialog with Slot trigger
+  - Controlled/Uncontrolled Tabs
+  - Combining Compound + Slot + Controlled patterns
