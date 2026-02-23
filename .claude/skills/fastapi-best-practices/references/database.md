@@ -56,6 +56,7 @@ for post in posts:
 
 ```ini
 # alembic.ini
-file_template = %(year)d-%(month).2d-%(day).2d_%(slug)s
+# NOTE: alembic.ini は ConfigParser を使うため % を %% に二重にすること
+file_template = %%(year)d-%%(month).2d-%%(day).2d_%%(slug)s
 # 生成例: 2024-08-24_post_content_idx.py
 ```

@@ -51,3 +51,18 @@ async def update_post(post: dict = Depends(valid_owned_post)):
 # parse_jwt_data が valid_post_id と valid_owned_post の両方で使われていても、
 # 1リクエスト中に1回だけ実行される
 ```
+
+## async 依存性を優先する
+
+```python
+# ✅ async 依存性（推奨）
+async def get_current_user(token: str = Depends(oauth2_scheme)) -> User:
+    return await auth_service.decode_token(token)
+
+# ❌ sync 依存性（不必要なスレッドプールのオーバーヘッドが発生）
+def get_current_user(token: str = Depends(oauth2_scheme)) -> User:
+    return auth_service.decode_token(token)
+```
+
+> sync 依存性はスレッドプールで実行されるため、小さな処理でも不必要なオーバーヘッドが発生する。
+> 特別な理由がない限り `async def` を使うこと。
