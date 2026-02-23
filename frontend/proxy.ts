@@ -4,15 +4,32 @@ import { i18n } from "@/i18n-config";
 
 function getLocale(request: NextRequest): string {
   const acceptLanguage = request.headers.get("accept-language") ?? "";
-  for (const locale of i18n.locales) {
-    if (acceptLanguage.toLowerCase().includes(locale)) {
-      return locale;
+
+  // Accept-Language ヘッダーを q 値の降順にパース
+  const candidates = acceptLanguage
+    .split(",")
+    .map((part) => {
+      const [lang, qParam] = part.trim().split(";q=");
+      const q = qParam ? parseFloat(qParam) : 1.0;
+      return { lang: lang.trim().toLowerCase(), q };
+    })
+    .filter(({ q }) => !isNaN(q))
+    .sort((a, b) => b.q - a.q);
+
+  // 優先度順に対応ロケールを探す（サブタグ照合も含む）
+  for (const { lang } of candidates) {
+    for (const locale of i18n.locales) {
+      const lc = locale.toLowerCase();
+      if (lang === lc || lang.startsWith(`${lc}-`)) {
+        return locale;
+      }
     }
   }
+
   return i18n.defaultLocale;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const pathnameHasLocale = i18n.locales.some(
