@@ -21,9 +21,10 @@ class UserCreate(BaseModel):
 ## カスタムベースモデルで一貫性を確保
 
 プロジェクト全体で共有するベースモデルを作り、datetime形式等を統一する。
+Pydantic v2 では `json_encoders` が非推奨のため、`@field_serializer` を使う。
 
 ```python
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, field_serializer
 from datetime import datetime
 
 def datetime_to_gmt_str(dt: datetime) -> str:
@@ -31,9 +32,17 @@ def datetime_to_gmt_str(dt: datetime) -> str:
 
 class CustomModel(BaseModel):
     model_config = ConfigDict(
-        json_encoders={datetime: datetime_to_gmt_str},
         populate_by_name=True,
     )
+
+# datetime フィールドがある具体的なモデルで @field_serializer を使う例
+class PostResponse(CustomModel):
+    title: str
+    created_at: datetime
+
+    @field_serializer("created_at", when_used="json")
+    def serialize_created_at(self, value: datetime) -> str:
+        return datetime_to_gmt_str(value)
 ```
 
 ## BaseSettingsはドメイン別に分割する

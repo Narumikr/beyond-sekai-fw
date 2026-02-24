@@ -19,6 +19,7 @@ db_pool = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    global db_pool
     # --- 起動時処理（yield前）---
     # DBコネクションプール・MLモデル・外部サービス接続等を初期化
     ml_models["predictor"] = await load_ml_model()

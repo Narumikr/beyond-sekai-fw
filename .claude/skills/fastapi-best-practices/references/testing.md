@@ -34,7 +34,8 @@ async def test_create_post(client: AsyncClient):
 テスト後は必ずリセットする。
 
 ```python
-from fastapi.testclient import TestClient
+import pytest
+from httpx import AsyncClient, ASGITransport
 from app.main import app
 from app.auth.dependencies import get_current_user
 
@@ -42,11 +43,11 @@ from app.auth.dependencies import get_current_user
 async def mock_current_user():
     return {"user_id": "test-user-id", "role": "admin"}
 
-def test_protected_endpoint():
+@pytest.mark.asyncio
+async def test_protected_endpoint(client: AsyncClient):
     app.dependency_overrides[get_current_user] = mock_current_user
-    client = TestClient(app)
 
-    response = client.get("/admin/dashboard")
+    response = await client.get("/admin/dashboard")
     assert response.status_code == 200
 
     app.dependency_overrides = {}  # 必ずリセット（他のテストに影響しないよう）
