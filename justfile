@@ -8,6 +8,7 @@ default:
 
 backend_dir := "backend"
 frontend_dir := "frontend"
+script_dir := "scripts"
 backend_port := "8000"
 frontend_port := "3000"
 uv := "uv"
@@ -25,6 +26,25 @@ ui:
 
 # --- コード品質チェック ---
 
+# バックエンド lint チェック
+lint-api:
+	cd {{backend_dir}} && {{uv}} run ruff check .
+
+# バックエンド フォーマット
+format-api:
+	cd {{backend_dir}} && {{uv}} run ruff format .
+
+# バックエンド 型チェック
+typecheck-api:
+	cd {{backend_dir}} && {{uv}} run pyright
+
+# バックエンド テスト
+test-api:
+	cd {{backend_dir}} && {{uv}} run pytest
+
+# バックエンド 品質チェック（lint + 型チェック）
+check-api: lint-api typecheck-api
+
 # フロントエンド lint チェック
 lint-ui:
 	cd {{frontend_dir}} && {{pnpm}} lint
@@ -37,13 +57,13 @@ typecheck-ui:
 check-ui: lint-ui typecheck-ui
 
 # 全サービス lint チェック
-lint-all: lint-ui
+lint-all: lint-api lint-ui
 
 # 全サービス型チェック
-typecheck-all: typecheck-ui
+typecheck-all: typecheck-api typecheck-ui
 
 # 全サービス品質チェック
-check-all: check-ui
+check-all: check-api check-ui
 
 # --- ビルド ---
 
@@ -71,3 +91,13 @@ clean-ui:
 
 # 全サービスクリーンアップ
 clean-all: clean-ui
+
+# --- スキーマ生成 ---
+
+# OpenAPI スキーマを shared/api/openapi.json に出力
+gen-openapi:
+	cd {{backend_dir}} && {{uv}} run python ../{{script_dir}}/backend/export_openapi.py
+
+# OpenAPI スキーマを生成してブラウザでプレビュー
+preview-openapi:
+	bash {{script_dir}}/backend/preview_openapi.sh

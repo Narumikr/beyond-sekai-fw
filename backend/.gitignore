@@ -4,3 +4,24 @@
 .env.*.local
 .env.production
 !.env.example
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment (uv)
+.venv/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Linter cache
+.ruff_cache/
+
+# Build artifacts
+dist/
+*.egg-info/
