@@ -13,7 +13,7 @@
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
       },
-      "disabled": false,
+      "disabled": true,
       "autoApprove": [
         "actions_get",
         "get_job_logs",
@@ -39,8 +39,7 @@
         "search_pull_requests",
         "get_commit",
         "list_branches",
-        "list_commits",
-        ""
+        "list_commits"
       ]
     }
   }

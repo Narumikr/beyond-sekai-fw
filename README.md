@@ -15,7 +15,8 @@
 ### **_Tasks for project kickoff_** 🍀![Leo/need-divider](https://capsule-render.vercel.app/api?type=rect&height=2&color=0:3367cc,100:f5f5f7)
 
 - [ ] READMEファイルを自身のプロジェクトにあったものに修正してください。
-- [ ] CLAUDE.mdやAGENTS.mdファイルを自身のプロジェクトにあったものに修正してください。
+- [ ] `CLAUDE.md`や`AGENTS.md`ファイルを自身のプロジェクトにあったものに修正してください。
     - [ ] CLAUDE.mdやAGENTS.mdはfrontend,backendフォルダ配下にもあります。
 - [ ] フロントエンドとバックエンドともに即時開発可能状態にはなっていますが、ご自身の構成と合わない場合は削除して作成しなおしてください。
     - [ ] 作り直した場合はドキュメントの更新を忘れないようにしてください。
+- [ ] kiroでMCPサーバーを用いる場合は`.kiro/settings/mcp.json`のdisabledの値を`false`にしてください。
