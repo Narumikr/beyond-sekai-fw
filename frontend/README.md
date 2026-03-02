@@ -30,6 +30,8 @@ pnpm dev
 
 ## ディレクトリ構成
 
+初期セットのディレクトリ構成
+
 ```
 frontend/
 ├── app/                    # Next.js App Router
@@ -45,10 +47,11 @@ frontend/
 ├── biome.json              # Biome 設定
 ├── get-dictionary.ts       # 翻訳辞書ローダー
 ├── i18n-config.ts          # ロケール設定
-├── middleware.ts            # ロケール検出・リダイレクト
+├── proxy.ts                # ロケール検出・リダイレクト
 ├── next.config.ts          # Next.js 設定
 ├── postcss.config.mjs      # PostCSS 設定
-└── tsconfig.json           # TypeScript 設定
+├── tsconfig.json           # TypeScript 設定
+└── CLAUDE.md               # フロントエンド向けガイドライン
 ```
 
 ## 開発コマンド
@@ -73,4 +76,4 @@ pnpm typecheck    # TypeScript 型チェック
 | `ja`     | 日本語（デフォルト） |
 | `en`     | 英語                 |
 
-`/` へのアクセスは middleware によってブラウザの `Accept-Language` ヘッダーを元に自動的に `/ja` または `/en` へリダイレクトされる。
+`/` へのアクセスは proxy によってブラウザの `Accept-Language` ヘッダーを元に自動的に `/ja` または `/en` へリダイレクトされる。
