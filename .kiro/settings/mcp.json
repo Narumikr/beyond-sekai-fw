@@ -41,6 +41,14 @@
         "list_branches",
         "list_commits"
       ]
+    },
+    "drawio": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@drawio/mcp"
+      ],
+      "disabled": true
     }
   }
 }
