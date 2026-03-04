@@ -36,6 +36,13 @@ typecheck-ui:
 # フロントエンド品質チェック（lint + 型チェック）
 check-ui: lint-ui typecheck-ui
 
+# フロントエンドテスト実行
+test-ui:
+	cd {{frontend_dir}} && {{pnpm}} test
+
+# 全サービステスト実行
+test-all: test-ui
+
 # 全サービス lint チェック
 lint-all: lint-ui
 
@@ -43,7 +50,7 @@ lint-all: lint-ui
 typecheck-all: typecheck-ui
 
 # 全サービス品質チェック
-check-all: check-ui
+check-all: check-ui test-all
 
 # --- ビルド ---
 

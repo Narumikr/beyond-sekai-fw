@@ -11,23 +11,53 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "correctness": {
+        "noExcessiveNestedTestSuites": {
+          "level": "error",
+          "options": { "maxDepth": 5 }
+        },
+        "useExhaustiveDependencies": "error"
+      },
+      "nursery": {
+        "useTailwindProperties": "warn"
+      },
+      "complexity": {
+        "noExcessiveComplexity": {
+          "level": "error",
+          "options": { "maxComplexity": 15 }
+        },
+        "noStaticOnlyClass": "error",
+        "noUselessFragments": "warn"
+      },
+      "style": {
+        "noParameterProperties": "error"
+      }
     }
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentWidth": 2,
+    "bracketSameLine": true,
+    "printWidth": 125,
+    "semi": true,
+    "formatWithErrors": false
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "double",
-      "trailingCommas": "es5"
+      "quoteStyle": "single",
+      "trailingCommas": "all",
+      "singleQuote": true,
+      "arrowParentheses": "always"
     }
   },
   "css": {
     "parser": {
       "tailwindDirectives": true
+    },
+    "formatter": {
+      "enabled": true
     }
   },
   "files": {
