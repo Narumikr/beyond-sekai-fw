@@ -13,19 +13,13 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "noExcessiveNestedTestSuites": {
-          "level": "error",
-          "options": { "maxDepth": 5 }
-        },
         "useExhaustiveDependencies": "error"
       },
-      "nursery": {
-        "useTailwindProperties": "warn"
-      },
       "complexity": {
-        "noExcessiveComplexity": {
+        "noExcessiveNestedTestSuites": "error",
+        "noExcessiveCognitiveComplexity": {
           "level": "error",
-          "options": { "maxComplexity": 15 }
+          "options": { "maxAllowedComplexity": 15 }
         },
         "noStaticOnlyClass": "error",
         "noUselessFragments": "warn"
@@ -40,15 +34,14 @@
     "indentStyle": "space",
     "indentWidth": 2,
     "bracketSameLine": true,
-    "printWidth": 125,
-    "semi": true,
+    "lineWidth": 125,
     "formatWithErrors": false
   },
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
       "trailingCommas": "all",
-      "singleQuote": true,
+      "semicolons": "always",
       "arrowParentheses": "always"
     }
   },
@@ -61,13 +54,6 @@
     }
   },
   "files": {
-    "includes": [
-      "**",
-      "!node_modules",
-      "!.next",
-      "!out",
-      "!build",
-      "!next-env.d.ts"
-    ]
+    "includes": ["**", "!node_modules", "!.next", "!out", "!build", "!next-env.d.ts"]
   }
 }
