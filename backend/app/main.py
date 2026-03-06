@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
-from typing import TypedDict
 
 from fastapi import FastAPI
+from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import app_settings, cors_settings
@@ -37,10 +37,10 @@ app.add_middleware(
 app.include_router(items_router.router)
 
 
-class HealthResponse(TypedDict):
+class HealthResponse(BaseModel):
     status: str
 
 
-@app.get("/health", tags=["health"])
+@app.get("/health", tags=["health"], response_model=HealthResponse)
 async def health_check() -> HealthResponse:
-    return {"status": "Hello, SEKAI"}
+    return HealthResponse(status="Hello, SEKAI")
