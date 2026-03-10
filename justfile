@@ -56,6 +56,13 @@ typecheck-ui:
 # フロントエンド品質チェック（lint + 型チェック）
 check-ui: lint-ui typecheck-ui
 
+# フロントエンドテスト実行
+test-ui:
+	cd {{frontend_dir}} && {{pnpm}} test
+
+# 全サービステスト実行
+test-all: test-api test-ui
+
 # 全サービス lint チェック
 lint-all: lint-api lint-ui
 
@@ -76,12 +83,16 @@ build-all: build-ui
 
 # --- 依存関係管理 ---
 
+# バックエンド依存関係インストール
+install-api:
+	cd {{backend_dir}} && {{uv}} sync
+
 # フロントエンド依存関係インストール
 install-ui:
 	cd {{frontend_dir}} && {{pnpm}} install
 
 # 全サービス依存関係インストール
-install-all: install-ui
+install-all: install-api install-ui
 
 # --- クリーンアップ ---
 

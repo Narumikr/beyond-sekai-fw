@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { i18n } from "@/i18n-config";
 
-function getLocale(request: NextRequest): string {
+export function getLocale(request: NextRequest): string {
   const acceptLanguage = request.headers.get("accept-language") ?? "";
 
   // Accept-Language ヘッダーを q 値の降順にパース
