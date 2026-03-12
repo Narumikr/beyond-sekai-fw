@@ -1,19 +1,19 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { i18n } from "@/i18n-config";
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import { i18n } from '@/i18n-config';
 
 export function getLocale(request: NextRequest): string {
-  const acceptLanguage = request.headers.get("accept-language") ?? "";
+  const acceptLanguage = request.headers.get('accept-language') ?? '';
 
   // Accept-Language ヘッダーを q 値の降順にパース
   const candidates = acceptLanguage
-    .split(",")
+    .split(',')
     .map((part) => {
-      const [lang, qParam] = part.trim().split(";q=");
+      const [lang, qParam] = part.trim().split(';q=');
       const q = qParam ? parseFloat(qParam) : 1.0;
       return { lang: lang.trim().toLowerCase(), q };
     })
-    .filter(({ q }) => !isNaN(q))
+    .filter(({ q }) => !Number.isNaN(q))
     .sort((a, b) => b.q - a.q);
 
   // 優先度順に対応ロケールを探す（サブタグ照合も含む）
@@ -32,23 +32,20 @@ export function getLocale(request: NextRequest): string {
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const pathnameHasLocale = i18n.locales.some(
-    (locale) =>
-      pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  );
+  const pathnameHasLocale = i18n.locales.some((locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`);
 
   if (pathnameHasLocale) {
-    const locale = pathname.split("/")[1];
+    const locale = pathname.split('/')[1];
     const response = NextResponse.next();
-    response.headers.set("x-locale", locale);
+    response.headers.set('x-locale', locale);
     return response;
   }
 
   // ロケールプレフィックスがない場合はリダイレクト
   const locale = getLocale(request);
-  const newPath = `/${locale}${pathname === "/" ? "" : pathname}`;
+  const newPath = `/${locale}${pathname === '/' ? '' : pathname}`;
   const response = NextResponse.redirect(new URL(newPath, request.url));
-  response.headers.set("x-locale", locale);
+  response.headers.set('x-locale', locale);
   return response;
 }
 
@@ -64,5 +61,5 @@ export function proxy(request: NextRequest) {
  * * @see https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
  */
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

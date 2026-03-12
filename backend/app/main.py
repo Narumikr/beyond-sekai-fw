@@ -1,8 +1,8 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 from app.config import app_settings, cors_settings
 from app.items import (
@@ -17,6 +17,7 @@ async def lifespan(app: FastAPI):
     yield
     # 終了時: リソース解放などをここで行う
     print("Shutting down...")
+
 
 app = FastAPI(
     title=app_settings.app_name,
