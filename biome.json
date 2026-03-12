@@ -1,0 +1,7 @@
+{
+  "formatter": {
+    "exclude": [
+      ".github/pull_request_template.md"
+    ]
+  }
+}
