@@ -18,7 +18,7 @@ repos:
         name: check-api
         language: system
         entry: just check-api
-        files: ^backend/.*\.py$
+        files: ^backend/
         pass_filenames: false
 
   # フロントエンド: lint + 型チェック（just check-ui）
@@ -28,5 +28,5 @@ repos:
         name: check-ui
         language: system
         entry: just check-ui
-        files: ^frontend/.*\.(ts|tsx|js|jsx|json)$
+        files: ^frontend/
         pass_filenames: false
