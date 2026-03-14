@@ -12,9 +12,6 @@
   // 保存時にフォーマットを実行する
   "editor.formatOnSave": true,
 
-  // Python は backend の仮想環境を明示的に利用する
-  "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/Scripts/python.exe",
-
   "[javascript]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
