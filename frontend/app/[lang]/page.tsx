@@ -1,15 +1,11 @@
-import { getDictionary } from "@/get-dictionary";
-import { i18n, type Locale } from "@/i18n-config";
+import { getDictionary } from '@/get-dictionary';
+import { i18n, type Locale } from '@/i18n-config';
 
 export function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ lang: Locale }>;
-}) {
+export default async function Page({ params }: { params: Promise<{ lang: Locale }> }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
 

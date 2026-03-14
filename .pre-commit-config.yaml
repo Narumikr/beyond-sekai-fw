@@ -1,0 +1,32 @@
+repos:
+  # 汎用チェック
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^\.github/pull_request_template\.md$
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+
+  # バックエンド: lint + 型チェック（just check-api）
+  - repo: local
+    hooks:
+      - id: check-api
+        name: check-api
+        language: system
+        entry: just check-api
+        files: ^backend/
+        pass_filenames: false
+
+  # フロントエンド: lint + 型チェック（just check-ui）
+  - repo: local
+    hooks:
+      - id: check-ui
+        name: check-ui
+        language: system
+        entry: just check-ui
+        files: ^frontend/
+        pass_filenames: false

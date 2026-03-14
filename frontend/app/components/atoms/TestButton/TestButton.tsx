@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 type TestButtonProps = {
   children: React.ReactNode;
@@ -6,11 +6,7 @@ type TestButtonProps = {
   disabled?: boolean;
 };
 
-export function TestButton({
-  children,
-  onClick,
-  disabled = false,
-}: TestButtonProps) {
+export function TestButton({ children, onClick, disabled = false }: TestButtonProps) {
   return (
     <button type="button" onClick={onClick} disabled={disabled}>
       {children}
