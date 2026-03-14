@@ -23,6 +23,7 @@ sekai-fw/
 ├── frontend/           # フロントエンド実装（React）
 ├── shared/             # 共有資産（API仕様・生成物など）
 ├── docs/               # 設計・計画ドキュメント
+├── script/             # ツール・スクリプトファイル
 ├── README.md           # プロジェクト概要
 └── justfile            # 開発用タスク定義
 ```
