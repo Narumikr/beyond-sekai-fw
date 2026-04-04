@@ -41,14 +41,14 @@ assistant: "プロジェクト全体の構成について monorepo-orchestrator 
 ## プロジェクト構成
 
 ```text
-sekai-fw/
+<repo-root>/
 ├── .github/            # CI/CD設定
 ├── .claude/            # Agentルール・Skills
 ├── .kiro/              # 要件定義、設計、計画サポート
 ├── backend/            # バックエンド実装（FastAPI）
 ├── frontend/           # フロントエンド実装（React）
 ├── shared/             # 共有資産（API仕様・生成物など）
-├── docs/               # 設計・計画ドキュメント
+├── docs/               # 要件・設計・計画ドキュメント
 ├── scripts/            # ツール・スクリプトファイル
 ├── README.md           # プロジェクト概要
 └── justfile            # 開発用タスク定義
