@@ -2,7 +2,7 @@
 
 # **_Aidroid Web SEKAI_**
 
-![welcome comment](https://readme-typing-svg.herokuapp.com?color=%23c4e6ed&width=500&lines=Hello+there!!+Thanks+for+stopping+by+🎵;Welcome+to+my+SEKAI+💫;Just+showing+big+love+for+prsk+💚;)
+![welcome comment](https://readme-typing-svg.herokuapp.com?color=%23c4e6ed&width=500&lines=Hello+there!!+Thanks+for+stopping+by+🎵;Welcome+to+my+SEKAI+💫;Just+showing+big+love+for+prsk+💚)
 
 #### **_Tech Stack_**
 
